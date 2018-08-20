@@ -1,0 +1,25 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="container login">
+        <div class="form-login">
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>
+                        {{ form.email(class_='form-control', placeholder='E-mail', size=32) }}
+                    </p>
+                    <p>
+                        {{ form.password(class_='form-control', placeholder='Senha', size=32) }}
+                    </p>
+                    <p>
+                        {{ form.submit(class_='btn btn-lg btn-primary btn-block') }}
+                    </p>
+                </div>
+            </form>
+            <a class="btn btn-xs btn-link btn-block" href="{{ url_for('login.reset_password') }}">Esqueci minha senha</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends "base/layout.html" %}
+
+{% block actions %}
+{% if usuario['email'] == despesa['criado_por'] and despesa['status'] in ['1', '5', '6'] %}
+<li>
+    <a href="{{ url_for('despesas.editar', id=despesa['id']) }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/editar.png') }}">
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('despesas.deletar', id=despesa['id']) }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/deletar.png') }}">
+    </a>
+</li>
+{% endif %}
+
+{% if usuario['RD'] %}
+    {% if despesa['status'] == '1' and usuario['departamento'] == despesa['departamento'] %}
+    <li>
+        <a href="{{ url_for('despesas.aprovacao', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/aprovar.png') }}">
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('despesas.desaprovacao', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/desaprovar.png') }}">
+        </a>
+    </li>
+    {% elif despesa['status'] == '2' and usuario['departamento'] == 'financeiro' %}
+    <li>
+        <a href="{{ url_for('despesas.aprovacao', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/aprovar.png') }}">
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('despesas.desaprovacao', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/desaprovar.png') }}">
+        </a>
+    </li>
+    {% endif %}
+{% endif %}
+
+{% if despesa['status'] == '3' and usuario['departamento'] == 'financeiro'%}
+    <li>
+        <a href="{{ url_for('despesas.aprovacao', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/incluso.png') }}">
+        </a>
+    </li>
+{% endif %}
+
+{% if (despesa['status'] not in ['1', '7']
+        and (usuario['email'] == despesa['criado_por']
+                or usuario['departamento'] == despesa['departamento'])) %}
+    <li>
+        <a href="{{ url_for('despesas.cancelar', id=despesa['id']) }}">
+            <img class="img-actions" src="{{ url_for('static', filename='img/actions/cancelar.png') }}">
+        </a>
+    </li>
+{% endif %}
+
+<li>
+    <a href="{{ url_for('despesas.listar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/voltar.png') }}">
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <h1>Despesa {{ despesa['id'] }}</h1>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <h4>
+                        Status
+                    </h4>
+                    <p>
+                        <img class="img-status-detalhe" src="{{ url_for('static', filename='img/status/' + despesa['status'] + '.png') }}">
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4>
+                        Centro de custo 
+                    </h4>
+                    <p>
+                        {{ despesa['centro_custo'] }}
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4>
+                        Vencimento 
+                    </h4>
+                    <p>
+                        {{ despesa['data_pagamento'] }}
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h4>
+                        Valor total 
+                    </h4>
+                    <p>
+                        {{ despesa['valor_total'] }}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <h4>
+                        Departamento
+                    </h4>
+                    <p class="text-capitalize">
+                        {{ despesa['departamento'] }}
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h4>
+                        Tipo de Solicitação
+                    </h4>
+                    <p>
+                        {{ despesa['tipo_solicitacao'] }}
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h4>
+                        Forma de pagamento
+                    </h4>
+                    <p>
+                        {{ despesa['forma_pagamento'] }}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h4>
+                        Descrição
+                    </h4>
+                    <p>
+                        {{ despesa['descricao'] }}
+                    </p>
+                </div>
+            </div>
+            {% if despesa['observacao'] != "" %}
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h4>
+                        Observação
+                    </h4>
+                    <p>
+                        {{ despesa['observacao'] }}
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+            {% if despesa['tem_arquivo'] %}
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <br>
+                    <p>
+                        <a href="{{ download }}" target="_blank">
+                            <img src="{{ url_for('static', filename='img/actions/baixardocumento.png') }}"</a>
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

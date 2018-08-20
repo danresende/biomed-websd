@@ -1,0 +1,20 @@
+{% extends "base/layout.html" %}
+{% block content %}
+<p><a href="{{ url_for('users.criar') }}">Novo usuário</a></p>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Departamento</th>
+    </tr>
+    {% for usuario in usuarios %}
+    <tr>
+        <td>{{ usuario['nome'] }}</td>
+        <td>{{ usuario['sobrenome'] }}</td>
+        <td>{{ usuario['departamento'] }}</td>
+        <td><a href="{{ url_for('users.detalhar', id=usuario['id']) }}">Detalhar</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{{ url_for('despesas.listar') }}">Voltar</a></p>
+{% endblock %}

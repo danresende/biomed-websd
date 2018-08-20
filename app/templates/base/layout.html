@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+    <head>
+        {% block head %}
+        <title>{% block title %}{% endblock %}Solicitação de despesa</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/regular.css" integrity="sha384-zkhEzh7td0PG30vxQk1D9liRKeizzot4eqkJ8gB3/I+mZ1rjgQk+BSt2F6rT2c+I" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        {% endblock %}
+    </head>
+    <body>
+        <div class="row">
+            <div class="container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        <header>
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="navbar-header">
+                            {% if current_user.is_authenticated %}
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            {% endif %}
+                            <a href="{{ url_for('despesas.listar') }}">
+                            <img class="logo-empresa" src="http://www.biomedidas.com.br/img/lgm/biomed-logo-480.png" alt="Biomed">
+                            </a>
+                        </div>
+                        {% if current_user.is_authenticated %}
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right list-inline text-center">
+                                {% block actions %}{% endblock %}
+                                <li>
+                                    <a href="{{ url_for('login.logout') }}">
+                                        <img class="img-actions" src="{{ url_for('static', filename='img/actions/logout.png') }}">
+                                    </a> 
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                        {% endif %}
+                    </div>
+                </div><!-- /.container-fluid -->
+            </nav>
+        </header>
+        {% block content %}{% endblock %}
+        <br>
+        <footer>
+            <p class="text-center"><i class="far fa-copyright" aria-hidden="true"></i> 2018 | Biomed | Daniel Resende</p>
+        </footer>
+    </body>
+</html>

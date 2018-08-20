@@ -1,0 +1,60 @@
+{% extends "base/layout.html" %}
+{% block actions %}
+<li>
+    <a href="{{ url_for('despesas.criar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/incluir.png') }}">
+    </a> 
+</li>
+<li>
+    {% if is_dba %}
+    <a href="{{ url_for('users.listar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/user.png') }}">
+    </a>
+    {% endif %}
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                    SOLICITAÇÕES DE DESPESA
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th>Status</th>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Departamento</th>
+                            <th>Emissão</th>
+                            <th>Vencimento</th>
+                            <th>Centro de Custo</th>
+                            <th>Valor</th>
+                            <th>Criado por</th>
+                            <th> </th>
+                        </tr>
+                        {% for despesa in despesas %}
+                        <tr>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/' + despesa['status'] + '.png') }}"></td>
+                            <td>{{ despesa['id'] }}</td>
+                            <td>{{ despesa['tipo_solicitacao'] }}</td>
+                            <td class="text-capitalize">{{ despesa['departamento'] }}</td>
+                            <td>{{ despesa['data_criacao'].strftime('%d/%m/%Y') }}</td>
+                            <td>{{ despesa['data_pagamento'].strftime('%d/%m/%Y') }}</td>
+                            <td>{{ despesa['centro_custo'] }}</td>
+                            <td>{{ despesa['valor_total'] }}</td>
+                            <td>{{ despesa['criado_por'] }}</td>
+                            <td><a href="{{ url_for('despesas.detalhar', id=despesa['id']) }}">Detalhar</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{% extends "base/layout.html" %}
+{% block content %}
+<p><span>Nome: </span>{{ usuario['nome'] }}</p>
+<p><span>Sobrenome: </span>{{ usuario['sobrenome'] }}</p>
+<p><span>Email: </span>{{ usuario['email'] }}</p>
+<p><span>Departamento: </span>{{ usuario['departamento'] }}</p>
+<p><span>Responável pelo departamento: </span>{{ usuario['RD'] }}</p>
+<p><span>DBA: </span>{{ usuario['DBA'] }}</p>
+<p><span>Diretor: </span>{{ usuario['Diretor'] }}</p>
+<p><a href="{{ url_for('users.editar', id=usuario['id']) }}">Editar</a>
+<span> </span><a href="{{ url_for('users.deletar', id=usuario['id']) }}">Deletar</a></p>
+<br>
+<p><a href="{{ url_for('users.listar') }}">Voltar</a></p>
+{% endblock %}
