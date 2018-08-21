@@ -1,4 +1,9 @@
-import os 
+import os
+import json
+import urllib.request
+
+with urllib.request.urlopen(os.environ['PATH_TO_JSON']) as url:
+    serviceAccount = json.loads(url.read().decode())
 
 class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -8,7 +13,7 @@ class Config(object):
         'authDomain': os.environ['APP_DOMAIN'] + '.firebaseio.com',
         'databaseURL': 'https://' + os.environ['APP_DOMAIN'] + '.firebaseio.com',
         'storageBucket': os.environ['APP_DOMAIN'] + '.appspot.com',
-        'serviceAccount': os.environ['PATH_TO_JSON']
+        'serviceAccount': serviceAccount
     }
 
     DEPARTAMENTOS = [('administrativo', 'Administrativo'),
