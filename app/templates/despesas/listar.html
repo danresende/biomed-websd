@@ -37,7 +37,7 @@
                             <th> </th>
                         </tr>
                         {% for despesa in despesas %}
-                        <tr>
+                        <tr id={{ despesa['id'] }}>
                             <td><img class="img-status" src="{{ url_for('static', filename='img/status/' + despesa['status'] + '.png') }}"></td>
                             <td>{{ despesa['id'] }}</td>
                             <td>{{ despesa['tipo_solicitacao'] }}</td>
@@ -50,6 +50,33 @@
                             <td><a href="{{ url_for('despesas.detalhar', id=despesa['id']) }}">Detalhar</a></td>
                         </tr>
                         {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h4>Legenda</h4>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/1.png') }}"</td>
+                            <td>Nova solicitação</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/2.png') }}"</td>
+                            <td>Aprovado pelo responsável do departamento</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/3.png') }}"</td>
+                            <td>Aprovado pelo Finaceiro</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/4.png') }}"</td>
+                            <td>Incluso no sistema para pagamento</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/5.png') }}"</td>
+                            <td>Não aprovado pelo responsável do departamento</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/6.png') }}"</td>
+                            <td>Não aprovado pelo Financeiro</td>
+                            <td><img class="img-status" src="{{ url_for('static', filename='img/status/7.png') }}"</td>
+                            <td>Cancelado</td>
+                        </tr>
                     </table>
                 </div>
             </div>
