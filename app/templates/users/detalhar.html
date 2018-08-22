@@ -1,14 +1,57 @@
 {% extends "base/layout.html" %}
+
+{% block actions %}
+<li>
+    <a href="{{ url_for('users.editar', id=usuario['id']) }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/editar.png') }}">
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('users.deletar', id=usuario['id']) }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/deletar.png') }}">
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('users.listar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/voltar.png') }}">
+    </a>
+</li>
+{% endblock %}
+
 {% block content %}
-<p><span>Nome: </span>{{ usuario['nome'] }}</p>
-<p><span>Sobrenome: </span>{{ usuario['sobrenome'] }}</p>
-<p><span>Email: </span>{{ usuario['email'] }}</p>
-<p><span>Departamento: </span>{{ usuario['departamento'] }}</p>
-<p><span>Responável pelo departamento: </span>{{ usuario['RD'] }}</p>
-<p><span>DBA: </span>{{ usuario['DBA'] }}</p>
-<p><span>Diretor: </span>{{ usuario['Diretor'] }}</p>
-<p><a href="{{ url_for('users.editar', id=usuario['id']) }}">Editar</a>
-<span> </span><a href="{{ url_for('users.deletar', id=usuario['id']) }}">Deletar</a></p>
-<br>
-<p><a href="{{ url_for('users.listar') }}">Voltar</a></p>
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <h1>{{ usuario['nome'] }} {{ usuario['sobrenome'] }}</h1>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <h4>Email</h4>
+                    <p>{{ usuario['email'] }}@biomedidas.com.br</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Departamento</h4>
+                    <p class="text-capitalize">{{ usuario['departamento'] }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <h4>Responável pelo departamento</h4>
+                    <p>{{ usuario['RD'] }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>DBA</h4>
+                    <p>{{ usuario['DBA'] }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Diretor</h4>
+                    <p>{{ usuario['Diretor'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
