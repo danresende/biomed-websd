@@ -1,20 +1,44 @@
 {% extends "base/layout.html" %}
+{% block actions %}
+<li>
+    <a href="{{ url_for('users.criar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/incluiruser.png') }}">
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('despesas.listar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/voltar.png') }}">
+    </a>
+</li>
+{% endblock %}
 {% block content %}
-<p><a href="{{ url_for('users.criar') }}">Novo usuário</a></p>
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Sobrenome</th>
-        <th>Departamento</th>
-    </tr>
-    {% for usuario in usuarios %}
-    <tr>
-        <td>{{ usuario['nome'] }}</td>
-        <td>{{ usuario['sobrenome'] }}</td>
-        <td>{{ usuario['departamento'] }}</td>
-        <td><a href="{{ url_for('users.detalhar', id=usuario['id']) }}">Detalhar</a></td>
-    </tr>
-    {% endfor %}
-</table>
-<p><a href="{{ url_for('despesas.listar') }}">Voltar</a></p>
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                    USUÁRIOS
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sobrenome</th>
+                            <th>Departamento</th>
+                            <th> </th>
+                        </tr>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario['nome'] }}</td>
+                            <td>{{ usuario['sobrenome'] }}</td>
+                            <td class=text-capitalize>{{ usuario['departamento'] }}</td>
+                            <td><a href="{{ url_for('users.detalhar', id=usuario['id']) }}">Detalhar</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
