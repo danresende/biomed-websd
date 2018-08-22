@@ -17,6 +17,14 @@
                 <br>
             </div>
         </div>
+        <div class="col-md-12 text-center" id="politica">
+            <div class="col-md-12">
+                <h4>Política de solicitação de despesas.</h4>
+                <p><strong>Para valores menores que R$ 500,00:</strong> prazo de pagamento mínimo de 5 dias.</p>
+                <p><strong>Para valores entre R$ 500,00 e R$ 5.000,00:</strong> prazo de pagamento mínimo de 15 dias.</p>
+                <p><strong>Para valores maiores que R$ 5.000,00:</strong> prazo de pagamento mínimo de 30 dias.</p>
+            </div>
+        </div>
         <div class="col-md-12">
             <form action="" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -114,6 +122,8 @@
 
 <script type="text/javascript">
 
+    $("#politica").hide();
+
     var placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação. Caso já tenha uma previsão para esta solicitação, inclua aqui o número ID desta.'
     $("#observacao").attr('placeholder', placeholder);
     
@@ -149,6 +159,8 @@
         var datediff = daysdiff(Date.now(), data_pgto);
         var valor = toFloat($("#valor_pgto").val());
         var obs = $("#observacao").val();
+
+        $("#politica").show();
 
         if (datediff <= 0) {
             alert("Data inválida.");
