@@ -26,6 +26,6 @@ class DespesaForm(FlaskForm):
     observacao = TextAreaField('Observação:', validators=[Optional(), Length(max=280)])
     tipo_solicitacao = SelectField('Tipo de solicitação:', choices=TIPO_SOLICITACAO, validators=[DataRequired()])
     valor_total = FlexibleDecimalField('Valor total (somente números):', validators=[DataRequired()])
-    boleto = FileField('Em caso de boleto faça upload do arquivo (apenas PDF!):', validators=[FileAllowed(['pdf'], 'Apenas PDF!')])
+    boleto = FileField('Em caso de boleto, anexe aqui o arquivo (apenas PDF!):', validators=[FileAllowed(['pdf'], 'Apenas PDF!')])
     submit = SubmitField('Enviar')
 

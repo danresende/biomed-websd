@@ -33,14 +33,14 @@
                         {% for error in form.data_pagamento.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
-                        {{ form.data_pagamento(class_='form-control', placeholder='DD/MM/AAAA') }}
+                        {{ form.data_pagamento(class_='form-control', id='data_pagamento', placeholder='DD/MM/AAAA') }}
                     </div>
                     <div class="col-md-4">
                         {{ form.valor_total.label }}
                         {% for error in form.valor_total.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
-                        {{ form.valor_total(class_='form-control', placeholder='0,00') }}
+                        {{ form.valor_total(class_='form-control', id='valor_pgto', placeholder='0,00') }}
                     </div>
                 </div>
 
@@ -52,14 +52,14 @@
                         {% endfor %}
                         {{ form.departamento(class_='form-control') }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="tipo">
                         {{ form.tipo_solicitacao.label }}
                         {% for error in form.tipo_solicitacao.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
                         {{ form.tipo_solicitacao(class_='form-control') }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" id="forma_pagamento">
                         {{ form.forma_pagamento.label }}
                         {% for error in form.forma_pagamento.errors %}
                             <span class="error">[{{ error }}]</span>
@@ -76,7 +76,7 @@
                         {% endfor %}
                     </div>
                     <div class="col-md-12">
-                        {{ form.descricao(class_='form-control', placeholder='Descreva aqui a despesa.', cols=50, rows=5) }}
+                        {{ form.descricao(class_='form-control', placeholder='Descreva aqui a despesa referente a esta solicitação.', cols=50, rows=5) }}
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -87,10 +87,10 @@
                         {% endfor %}
                     </div>
                     <div class="col-md-12">
-                        {{ form.observacao(class_='form-control', placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação.', cols=50, rows=5) }}
+                        {{ form.observacao(class_='form-control', id='observacao', cols=50, rows=5) }}
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" id="documento">
                     <div class="col-md-12">
                         {{ form.boleto.label }}
                         {% for error in form.boleto.errors %}
@@ -112,4 +112,62 @@
     </div>
 </div>
 
+<script type="text/javascript">
+
+    var placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação. Caso já tenha uma previsão para esta solicitação, inclua aqui o número ID desta.'
+    $("#observacao").attr('placeholder', placeholder);
+    
+    function parseDate(str) {
+        var date_parts = str.split("/");
+        return new Date(date_parts[2], date_parts[1] - 1, date_parts[0]);
+    };
+    
+    function daysdiff(date1, date2) {
+        return Math.floor(1 + ((date2 - date1) / (1000 * 60 * 60 * 24)));
+        return (date2 - date1)
+    };
+
+    function toFloat(str) {
+        return parseFloat(str.replace(",", "."))
+    };
+
+    $("#forma_pagamento").on("change", function(e){
+
+        var forma_pgto = $("#forma_pagamento option:selected").val();
+
+        if (forma_pgto !== 'BOL' || tipo == 50){
+            $("#documento").hide();
+        } else {
+            $("#documento").show();
+        };
+
+    });
+
+    $(".btn").on("click", function(e){
+
+        var data_pgto = parseDate($("#data_pagamento").val());
+        var datediff = daysdiff(Date.now(), data_pgto);
+        var valor = toFloat($("#valor_pgto").val());
+        var obs = $("#observacao").val();
+
+        if (datediff <= 0) {
+            alert("Data inválida.");
+            return false;
+        } else if (obs == "") {
+            if (datediff == 1) {
+                alert(datediff + "Vencimento menor do que 2 dias.\nJustifique a urgência em 'Observação', ou altere a data.");
+                return false;
+            } else if (datediff < 5 && valor <= 500) {
+                alert("Valores até R$ 500,00 devem ter vencimento igual ou maior do que 5 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+                return false;
+            } else if (datediff < 15 && valor > 500  && valor <= 5000) {
+                alert("Valores entre R$ 500,00 e R$ 5000,00 devem ter vencimento igual ou maior do que 15 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+                return false;
+            } else if (datediff < 30 && valor > 5000) {
+                alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 30 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+            };
+        };
+    });
+
+</script>
 {% endblock %}
