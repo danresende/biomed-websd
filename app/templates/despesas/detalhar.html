@@ -15,7 +15,7 @@
 {% endif %}
 
 {% if usuario['RD'] %}
-    {% if despesa['status'] == '1' and usuario['departamento'] == despesa['departamento'] %}
+    {% if despesa['status'] == '1' and pode_aprovar %}
     <li>
         <a href="{{ url_for('despesas.aprovacao', id=despesa['id']) }}">
             <img class="img-actions" src="{{ url_for('static', filename='img/actions/aprovar.png') }}">

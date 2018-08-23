@@ -132,7 +132,17 @@ def detalhar(id):
     else:
         arquivo_url = '#'
 
-    return render_template('despesas/detalhar.html', despesa=despesa, usuario=usuario, download=arquivo_url)
+    if usuario['RD']:
+        if current_user.departamento == despesa['departamento']:
+            pode_aprovar = True
+        elif current_user.departamento == 'administrativo' and despesa['departamento'] == 'estoque':
+            pode_aprovar = True
+        else:
+            pode_aprovar = False
+    else:
+        pode_aprovar = False
+
+    return render_template('despesas/detalhar.html', despesa=despesa, usuario=usuario, download=arquivo_url, pode_aprovar=pode_aprovar)
 
 # Editar
 @Despesas.route('/editar/<id>', methods=['GET', 'POST'])
