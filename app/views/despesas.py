@@ -178,6 +178,7 @@ def editar(id):
 
         try:
             despesa['modificado_por'] = usuario['email']
+            despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
             if form.boleto.data is not None:
                 response = storage.child('boletos/' + id).put(boleto, current_user.idToken)
                 despesa['download_token'] = response['downloadTokens']
@@ -267,6 +268,7 @@ def aprovacao(id):
 
     try:
         despesa['modificado_por'] = usuario['email']
+        despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
     except Exception as e:
@@ -316,6 +318,7 @@ def desaprovacao(id):
 
     try:
         despesa['modificado_por'] = usuario['email']
+        despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
     except Exception as e:
@@ -343,9 +346,10 @@ def cancelar(id):
 
     if pode_cancelar and despesa['status'] != '7':
         despesa['status'] = '7'
-        despesa['modificado_por'] = usuario['email']
 
     try:
+        despesa['modificado_por'] = usuario['email']
+        despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
     except Exception as e:
