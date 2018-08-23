@@ -41,12 +41,24 @@ def listar():
 
     despesas = sorted(despesas, key=lambda k: k['data_criacao'], reverse=True)
 
-    if current_user.departamento != 'financeiro':
-        despesas = [despesa for despesa in despesas
-                        if despesa['departamento'] == current_user.departamento
-                            or despesa['criado_por'] == current_user.email]
+    depto_usuario = current_user.departamento
 
-    return render_template('despesas/listar.html', despesas=despesas, is_dba=usuario['DBA'])
+    if depto_usuario == 'financeiro':
+        return render_template('despesas/listar.html', despesas=despesas, is_dba=usuario['DBA'])
+
+    elif current_user.departamento == 'administrativo':
+        despesas = [despesa for despesa in despesas
+                        if (despesa['departamento'] == depto_usuario
+                                or despesa['departamento'] == 'estoque'
+                                    or despesa['criado_por'] == current_user.email)]
+        return render_template('despesas/listar.html', despesas=despesas, is_dba=usuario['DBA'])
+
+    else:
+        despesas = [despesa for despesa in despesas
+                        if (despesa['departamento'] == depto_usuario
+                                or despesa['criado_por'] == current_user.email)]
+        return render_template('despesas/listar.html', despesas=despesas, is_dba=usuario['DBA'])
+
 
 # Criar
 @Despesas.route('/criar', methods=['GET', 'POST'])
