@@ -241,22 +241,21 @@ def aprovacao(id):
 
     if usuario['RD']:
         if current_user.departamento == despesa['departamento']:
-            resp_depto == True
+            resp_depto = True
         elif (current_user.departamento == 'administrativo'
                     and despesa['departamento'] == 'estoque'):
-            resp_depto == True
+            resp_depto = True
         else:
-            resp_depto == False
+            resp_depto = False
     else:
-        resp_depto == False
+        resp_depto = False
 
     if usuario['RD'] and fin:
-        resp_fin == True
+        resp_fin = True
     else:
-        resp_fin == False
+        resp_fin = False
 
     if despesa['status'] == '1' and resp_depto:
-        print(despesa['status'])
         despesa['status'] = '2'
         despesa['modificado_por'] = usuario['email']
 
