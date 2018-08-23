@@ -16,6 +16,9 @@ class Config(object):
         'serviceAccount': serviceAccount
     }
 
+    EMPRESA = [('biomed', 'Biomed'),
+               ('eletromed', 'Eletromed')]
+
     DEPARTAMENTOS = [('administrativo', 'Administrativo'),
                      ('comercial', 'Comercial'),
                      ('diretoria', 'Diretoria'),

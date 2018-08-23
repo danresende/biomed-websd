@@ -29,6 +29,22 @@
             <form action="" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
                 <div class="col-md-12">
+                    <div class="col-md-6">
+                        {{ form.empresa.label }}
+                        {% for error in form.empresa.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.empresa(class_='form-control') }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.fornecedor.label }}
+                        {% for error in form.fornecedor.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.fornecedor(class_='form-control') }}
+                    </div>
+                </div>
+                <div class="col-md-12">
                     <div class="col-md-4">
                         {{ form.centro_custo.label }}
                         {% for error in form.centro_custo.errors %}

@@ -79,6 +79,8 @@ def criar():
             'data_ult_alt': datetime.now().strftime('%d/%m/%Y'),
             'departamento': form.departamento.data,
             'descricao': form.descricao.data,
+            'empresa': form.empresa.data,
+            'fornecedor': form.fornecedor.data,
             'forma_pagamento': form.forma_pagamento.data,
             'observacao': form.observacao.data,
             'tipo_solicitacao': form.tipo_solicitacao.data,
@@ -164,6 +166,8 @@ def editar(id):
             'data_ult_alt': datetime.now().strftime('%d/%m/%Y'),
             'departamento': form.departamento.data,
             'descricao': form.descricao.data,
+            'empresa': form.empresa.data,
+            'fornecedor': form.fornecedor.data,
             'forma_pagamento': form.forma_pagamento.data,
             'observacao': form.observacao.data,
             'tipo_solicitacao': form.tipo_solicitacao.data,
@@ -197,6 +201,8 @@ def editar(id):
         form.data_pagamento.data = datetime.strptime(despesa['data_pagamento'], "%d/%m/%Y")
         form.departamento.data = despesa['departamento']
         form.descricao.data = despesa['descricao']
+        form.empresa.data = despesa['empresa']
+        form.fornecedor.data = despesa['fornecedor']
         form.forma_pagamento.data = despesa['forma_pagamento']
         form.observacao.data = despesa['observacao']
         form.tipo_solicitacao.data = despesa['tipo_solicitacao']

@@ -6,6 +6,13 @@ label {
     padding-top: 5px;
 }
 
+td {
+    max-width: 115px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .error {
     color: red;
 }
