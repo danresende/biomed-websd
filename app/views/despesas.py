@@ -177,6 +177,7 @@ def editar(id):
             form.boleto.data.save(boleto)
 
         try:
+            despesa['modificado_por'] = usuario['email']
             if form.boleto.data is not None:
                 response = storage.child('boletos/' + id).put(boleto, current_user.idToken)
                 despesa['download_token'] = response['downloadTokens']
@@ -257,17 +258,15 @@ def aprovacao(id):
 
     if despesa['status'] == '1' and resp_depto:
         despesa['status'] = '2'
-        despesa['modificado_por'] = usuario['email']
 
     elif despesa['status'] == '2' and resp_fin:
         despesa['status'] = '3'
-        despesa['modificado_por'] = usuario['email']
 
     elif despesa['status'] == '3' and fin:
         despesa['status'] = '4'
-        despesa['modificado_por'] = usuario['email']
 
     try:
+        despesa['modificado_por'] = usuario['email']
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
     except Exception as e:
@@ -311,13 +310,12 @@ def desaprovacao(id):
     if despesa['status'] == '1' and resp_depto:
         print(despesa['status'])
         despesa['status'] = '5'
-        despesa['modificado_por'] = usuario['email']
 
     elif despesa['status'] == '2' and resp_fin:
         despesa['status'] = '6'
-        despesa['modificado_por'] = usuario['email']
 
     try:
+        despesa['modificado_por'] = usuario['email']
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
     except Exception as e:
