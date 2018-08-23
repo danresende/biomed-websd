@@ -177,7 +177,7 @@ def editar(id):
             form.boleto.data.save(boleto)
 
         try:
-            despesa['modificado_por'] = usuario['email']
+            despesa['modificado_por'] = current_user.email
             despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
             if form.boleto.data is not None:
                 response = storage.child('boletos/' + id).put(boleto, current_user.idToken)
@@ -267,7 +267,7 @@ def aprovacao(id):
         despesa['status'] = '4'
 
     try:
-        despesa['modificado_por'] = usuario['email']
+        despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
@@ -317,7 +317,7 @@ def desaprovacao(id):
         despesa['status'] = '6'
 
     try:
-        despesa['modificado_por'] = usuario['email']
+        despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
@@ -348,7 +348,7 @@ def cancelar(id):
         despesa['status'] = '7'
 
     try:
-        despesa['modificado_por'] = usuario['email']
+        despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
 
