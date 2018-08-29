@@ -11,7 +11,7 @@ class UserForm(FlaskForm):
     sobrenome = StringField('Sobrenome', validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField('Email', validators=[DataRequired()])
     departamento = SelectField('Departamento', choices=DEPARTAMENTOS, validators=[DataRequired()])
-    representante = BooleanField('Representante do departamento')
+    representante = BooleanField('Responsável do departamento')
     dba = BooleanField('DBA')
     diretor = BooleanField('Diretor')
     submit = SubmitField('Enviar')
