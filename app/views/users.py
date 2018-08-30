@@ -33,6 +33,8 @@ def listar():
         usuario['id'] = k
         usuarios.append(usuario)
 
+    usuarios = sorted(usuarios, key=lambda k: (k['departamento'], k['nome']))
+
     return render_template('users/listar.html', usuarios=usuarios)
 
 # Criar
