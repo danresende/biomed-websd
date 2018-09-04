@@ -8,6 +8,16 @@ from app.forms import DespesaForm
 
 Despesas = Blueprint('despesas', __name__)
 
+def teste_politica_pgto(valor_pgto, delta):
+    if valor_pgto < 500.00 and delta.days < 5:
+        flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
+    elif valor_pgto >= 500.00 and valor_pgto < 5000.00 and despesa['tipo_solicitacao'] != '50':
+        flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
+    elif valor_pgto >= 5000.00 and despesa['tipo_solicitacao'] != '50':
+        flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
+
+    return None
+
 
 # Despesas
 ################################################################################
@@ -82,6 +92,7 @@ def criar():
             'empresa': form.empresa.data,
             'fornecedor': form.fornecedor.data,
             'forma_pagamento': form.forma_pagamento.data,
+            'previsao': form.previsao.data,
             'observacao': form.observacao.data,
             'tipo_solicitacao': form.tipo_solicitacao.data,
             'valor_total': '{:.2f}'.format(form.valor_total.data),
@@ -126,6 +137,17 @@ def detalhar(id):
     despesa = dict(despesa.val())
     despesa['id'] = id
 
+    valor_pgto = float(despesa['valor_total'])
+    data_pgto = datetime.strptime(despesa['data_pagamento'], '%d/%m/%Y')
+    hoje = datetime.now()
+    delta = data_pgto - hoje
+
+    if despesa['status'] == '1' and despesa['tipo_solicitacao'] != '50':
+        if 'previsao' not in despesa.keys():
+            teste_politica_pgto(valor_pgto, delta)
+        elif despesa['previsao'] == "":
+            teste_politica_pgto(valor_pgto, delta)
+
     if despesa['tem_arquivo']:
         try:
             arquivo_url = storage.child('boletos/' + id).get_url(despesa['download_token'])
@@ -135,12 +157,14 @@ def detalhar(id):
         arquivo_url = '#'
 
     if usuario['RD']:
+
         if current_user.departamento == despesa['departamento']:
             pode_aprovar = True
         elif current_user.departamento == 'administrativo' and despesa['departamento'] == 'estoque':
             pode_aprovar = True
         else:
             pode_aprovar = False
+
     else:
         pode_aprovar = False
 
@@ -157,6 +181,9 @@ def editar(id):
     despesa = dict(despesa.val())
     despesa['id'] = id
 
+    if 'previsao' not in despesa.keys():
+        despesa['previsao'] = ""
+
     form = DespesaForm()
     if form.validate_on_submit():
         despesa = {
@@ -172,6 +199,7 @@ def editar(id):
             'observacao': form.observacao.data,
             'tipo_solicitacao': form.tipo_solicitacao.data,
             'valor_total': '{:.2f}'.format(form.valor_total.data),
+            'previsao': form.previsao.data,
             'status': '1'
         }
 
@@ -204,6 +232,7 @@ def editar(id):
         form.empresa.data = despesa['empresa']
         form.fornecedor.data = despesa['fornecedor']
         form.forma_pagamento.data = despesa['forma_pagamento']
+        form.previsao.data = despesa['previsao']
         form.observacao.data = despesa['observacao']
         form.tipo_solicitacao.data = despesa['tipo_solicitacao']
         form.valor_total.data = float(despesa['valor_total'])
