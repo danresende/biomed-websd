@@ -8,12 +8,19 @@ from app.forms import DespesaForm
 
 Despesas = Blueprint('despesas', __name__)
 
-def teste_politica_pgto(valor_pgto, delta):
-    if valor_pgto < 500.00 and delta.days < 5:
+def teste_politica_pgto(despesa):
+
+    valor_pgto = float(despesa['valor_total'])
+    data_pgto = datetime.strptime(despesa['data_pagamento'], '%d/%m/%Y')
+    hoje = datetime.now()
+    delta = data_pgto - hoje
+    delta = delta.days + 1
+
+    if valor_pgto < 500.00 and delta < 5:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
-    elif valor_pgto >= 500.00 and valor_pgto < 5000.00 and despesa['tipo_solicitacao'] != '50':
+    elif valor_pgto >= 500 and valor_pgto < 5000.00 and delta < 15:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
-    elif valor_pgto >= 5000.00 and despesa['tipo_solicitacao'] != '50':
+    elif valor_pgto >= 5000.00 and delta < 30:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
 
     return None
@@ -136,17 +143,11 @@ def detalhar(id):
     despesa = db.child('despesas').child(id).get(current_user.idToken)
     despesa = dict(despesa.val())
     despesa['id'] = id
-
-    valor_pgto = float(despesa['valor_total'])
-    data_pgto = datetime.strptime(despesa['data_pagamento'], '%d/%m/%Y')
-    hoje = datetime.now()
-    delta = data_pgto - hoje
-
     if despesa['status'] == '1' and despesa['tipo_solicitacao'] != '50':
         if 'previsao' not in despesa.keys():
-            teste_politica_pgto(valor_pgto, delta)
+            teste_politica_pgto(despesa)
         elif despesa['previsao'] == "":
-            teste_politica_pgto(valor_pgto, delta)
+            teste_politica_pgto(despesa)
 
     if despesa['tem_arquivo']:
         try:
