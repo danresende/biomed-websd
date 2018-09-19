@@ -95,7 +95,7 @@
                         {% for error in form.previsao.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
-                        {{ form.previsao(class_='form-control') }}
+                        {{ form.previsao(class_='form-control', id='campo_previsao') }}
                     </div>
                 </div>
 
@@ -110,7 +110,7 @@
                         {{ form.descricao(class_='form-control', placeholder='Descreva aqui a despesa referente a esta solicitação.', cols=50, rows=5) }}
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" id="observacao">
                     <div class="col-md-12">
                         {{ form.observacao.label }}
                         {% for error in form.observacao.errors %}
@@ -118,7 +118,7 @@
                         {% endfor %}
                     </div>
                     <div class="col-md-12">
-                        {{ form.observacao(class_='form-control', id='observacao', cols=50, rows=5) }}
+                        {{ form.observacao(class_='form-control', id='campo_observacao', cols=50, rows=5) }}
                     </div>
                 </div>
                 <div class="col-md-12" id="documento">
@@ -143,106 +143,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-    $("#politica").hide();
-
-    var placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação. '
-    $("#observacao").attr('placeholder', placeholder);
-    
-    function parseDate(str) {
-        var date_parts = str.split("/");
-        return new Date(date_parts[2], date_parts[1] - 1, date_parts[0]);
-    };
-    
-    function daysdiff(date1, date2) {
-        return Math.floor(1 + ((date2 - date1) / (1000 * 60 * 60 * 24)));
-        return (date2 - date1)
-    };
-
-    function toFloat(str) {
-        return parseFloat(str.replace(",", "."))
-    };
-
-    $("#tipo").on("change", function(e){
-
-        var forma_pgto = $("#forma_pagamento option:selected").val();
-        var tipo = $("#tipo option:selected").val();
-
-        if (tipo !== '50'){
-            $("#previsao").show();
-        } else {
-            $("#previsao").hide();
-        };
-
-        if (forma_pgto === 'BOL' && tipo !== '50'){
-            $("#documento").show();
-        } else {
-            $("#documento").hide();
-        };
-
-    });
-
-
-    $("#forma_pagamento").on("change", function(e){
-
-        var forma_pgto = $("#forma_pagamento option:selected").val();
-        var tipo = $("#tipo option:selected").val();
-
-        if (forma_pgto === 'BOL' && tipo !== '50'){
-            $("#documento").show();
-            placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação. '
-            $("#observacao").attr('placeholder', placeholder);
-        } else if (forma_pgto === 'DEP' && tipo !== '50') {
-            placeholder += 'Inclua os dados bancários para depósito. '
-            $("#observacao").attr('placeholder', placeholder);
-        } else {
-            $("#documento").hide();
-            placeholder='Acrescente aqui quaisquer observações necessárias quanto a esta solicitação. '
-            $("#observacao").attr('placeholder', placeholder);
-        };
-
-    });
-
-    $(".btn").on("click", function(e){
-
-        var data_pgto = parseDate($("#data_pagamento").val());
-        var datediff = daysdiff(Date.now(), data_pgto);
-        var valor = toFloat($("#valor_pgto").val());
-        var obs = $("#observacao").val();
-
-
-        if (datediff <= 0) {
-            alert("Data inválida.");
-            return false;
-        } else if (obs == "") {
-            if (datediff == 1) {
-                alert("Vencimento menor do que 2 dias.\nJustifique a urgência em 'Observação', ou altere a data.");
-                $("#politica").show();
-                placeholder += 'Justifique a necessidade de urgência deste pagamento.'
-                $("#observacao").attr('placeholder', placeholder);
-                return false;
-            } else if (datediff < 5 && valor <= 500) {
-                alert("Valores até R$ 500,00 devem ter vencimento igual ou maior do que 5 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
-                $("#politica").show();
-                placeholder += 'Justifique a necessidade de urgência deste pagamento.'
-                $("#observacao").attr('placeholder', placeholder);
-                return false;
-            } else if (datediff < 15 && valor > 500  && valor <= 5000) {
-                alert("Valores entre R$ 500,00 e R$ 5000,00 devem ter vencimento igual ou maior do que 15 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
-                $("#politica").show();
-                placeholder += 'Justifique a necessidade de urgência deste pagamento.'
-                $("#observacao").attr('placeholder', placeholder);
-                return false;
-            } else if (datediff < 30 && valor > 5000) {
-                alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 30 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
-                $("#politica").show();
-                placeholder += 'Justifique a necessidade de urgência deste pagamento.'
-                $("#observacao").attr('placeholder', placeholder);
-                return false;
-            };
-        };
-    });
-
-</script>
 {% endblock %}
