@@ -16,11 +16,11 @@ def teste_politica_pgto(despesa):
     delta = data_pgto - hoje
     delta = delta.days + 1
 
-    if valor_pgto < 500.00 and delta < 5:
+    if valor_pgto <= 500.00 and delta < 5:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
-    elif valor_pgto >= 500 and valor_pgto < 5000.00 and delta < 15:
+    elif valor_pgto > 500 and valor_pgto <= 5000.00 and delta < 15:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
-    elif valor_pgto >= 5000.00 and delta < 30:
+    elif valor_pgto > 5000.00 and delta < 30:
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
 
     return None
