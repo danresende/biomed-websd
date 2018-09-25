@@ -47,6 +47,7 @@ $("#forma_pagamento").on("change", function(e){
         placeholder = 'Inclua os dados bancários para depósito. '
         $("#campo_observacao").attr('placeholder', placeholder);
         $("#observacao").show();
+        $("#documento").hide();
     } else {
         $("#documento").hide();
         $("#observacao").hide();
