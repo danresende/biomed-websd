@@ -143,7 +143,7 @@ def detalhar(id):
     despesa = db.child('despesas').child(id).get(current_user.idToken)
     despesa = dict(despesa.val())
     despesa['id'] = id
-    if despesa['status'] == '1' and despesa['tipo_solicitacao'] != '50':
+    if despesa['status'] <= '3' and despesa['tipo_solicitacao'] != '50':
         if 'previsao' not in despesa.keys():
             teste_politica_pgto(despesa)
         elif despesa['previsao'] == "":
