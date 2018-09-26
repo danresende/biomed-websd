@@ -1,12 +1,77 @@
 import os
+from app import mail
+from app.forms import DespesaForm
+from config import Config
 from datetime import datetime
+from firebase import db, storage
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_user, login_required, current_user
+from flask_mail import Message
 from werkzeug import secure_filename
-from firebase import db, storage
-from app.forms import DespesaForm
 
 Despesas = Blueprint('despesas', __name__)
+
+# FunçÕes auxiliares
+################################################################################
+
+def send_mail(despesa):
+
+    ADMIN = Config.ADMIN
+
+    sender = current_user.email + '@biomedidas.com.br'
+
+    departamento = 'administrativo' if despesa['departamento'] == 'estoque' else despesa['departamento']
+
+    recipients = dict(db.child('users').get(current_user.idToken).val())
+    recipients = [v['email'] + '@biomedidas.com.br'
+                    for k, v in recipients.items()
+                    if v['RD'] and v['departamento'] == departamento]
+
+    if despesa['status'] == '1':
+        subject = '[WebSD] Uma nova solicitação foi criada'
+        template = 'status1'
+
+    elif despesa['status'] == '2':
+        subject = '[WebSD] Uma nova solicitação foi aprovada pelo Responsável do Departamento'
+        recipients = [ADMIN, despesa['criado_por'] + '@biomedidas.com.br']
+        template = 'status2'
+
+    elif despesa['status'] == '3':
+        subject = '[WebSD] Há uma nova solicitação para ser incluida no sistema'
+        recipients = [ADMIN]
+        template = 'status3'
+
+    elif despesa['status'] == '4':
+        sender = ADMIN
+        recipients += [despesa['criado_por'] + '@biomedidas.com.br']
+        subject = '[WebSD] Sua solicitação foi incluida no sistema'
+        template = 'status4'
+
+    elif despesa['status'] == '5':
+        subject = '[WebSD] Sua solicitação de despesa NÃO foi aprovada pelo Responsável do Departamento'
+        recipients = [despesa['criado_por'] + '@biomedidas.com.br']
+        template = 'status5'
+
+    elif despesa['status'] == '6':
+        sender = ADMIN
+        recipients += [despesa['criado_por'] + '@biomedidas.com.br']
+        subject = '[WebSD] Sua solicitação de despesa NÃO foi aprovada pelo Depto Financeiro'
+        template = 'status6'
+
+    elif despesa['status'] == '7':
+        recipients += [ADMIN]
+        subject = '[WebSD] A despesa ' + despesa['id'] + ' foi cancelada pelo usuário'
+        template = 'status7'
+
+    else:
+        return None
+
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.body = render_template('mail/' + template + '.txt', despesa=despesa)
+    msg.html = render_template('mail/' + template + '.html', despesa=despesa)
+    mail.send(msg)
+
+    return None
 
 def teste_politica_pgto(despesa):
 
@@ -120,6 +185,7 @@ def criar():
                 response = storage.child('boletos/' + despesa['id']).put(boleto, current_user.idToken)
                 despesa['download_token'] = response['downloadTokens']
             db.child('despesas').child(despesa['id']).update(despesa, current_user.idToken)
+            send_mail(despesa)
             return redirect(url_for('despesas.listar'))
 
         except Exception as e:
@@ -216,6 +282,7 @@ def editar(id):
                 response = storage.child('boletos/' + id).put(boleto, current_user.idToken)
                 despesa['download_token'] = response['downloadTokens']
             db.child('despesas').child(id).update(despesa, current_user.idToken)
+            send_mail(despesa)
             return redirect(url_for('despesas.listar'))
 
         except Exception as e:
@@ -306,6 +373,7 @@ def aprovacao(id):
         despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
+        send_mail(despesa)
 
     except Exception as e:
         mensagem = 'Não foi possível atualizar essa despesa.'
@@ -346,7 +414,6 @@ def desaprovacao(id):
         resp_fin = False
 
     if despesa['status'] == '1' and resp_depto:
-        print(despesa['status'])
         despesa['status'] = '5'
 
     elif despesa['status'] == '2' and resp_fin:
@@ -356,6 +423,7 @@ def desaprovacao(id):
         despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
+        send_mail(despesa)
 
     except Exception as e:
         mensagem = 'Não foi possível atualizar essa despesa.'
@@ -387,6 +455,7 @@ def cancelar(id):
         despesa['modificado_por'] = current_user.email
         despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
         db.child('despesas').child(id).update(despesa, current_user.idToken)
+        send_mail(despesa)
 
     except Exception as e:
         mensagem = 'Não foi possível atualizar essa despesa.'

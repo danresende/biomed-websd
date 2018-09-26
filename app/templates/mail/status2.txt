@@ -1,0 +1,12 @@
+Oi,
+
+Autorizei a despesa {{ despesa['id'] }}.
+
+Por favor, verifique se atende as exigências para pagamento.
+
+Clique no link abaixo para acessá-la:
+http://biomed-websd.herokuapp.com
+
+Att.,
+
+{{ current_user.nome }} {{ current_user.sobrenome }}

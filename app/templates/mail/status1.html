@@ -1,0 +1,14 @@
+<p>Oi,</p>
+
+<p>Criei a Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }}.</p>
+
+<p>Caso esteja tudo certo, poderia autorizá-la, por favor?</p>
+
+<p>Para acessá-la basta clicar no link abaixo:</p>
+<p><a href="http://biomed-websd.herokuapp.com">Acesse aqui.</a></p>
+
+<p>Lembrando que o prazo de pagamento mínimo começa a contar a partir da autorização pelo responsável do departamento, portanto caso o prazo para pagamento a partir da data de autorização não esteja de acordo com a política de pagamentos esta solicitação poderá não ser aprovada pelo Departamento Financeiro.</p>
+
+<p>Att.,</p>
+
+<p>{{ current_user.nome }} {{ current_user.sobrenome }}</p>

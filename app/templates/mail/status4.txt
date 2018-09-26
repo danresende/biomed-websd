@@ -1,0 +1,9 @@
+Oi,
+
+A Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }} já foi incluído no sistema para pagamento na data informada.
+
+Não se esqueça que você pode acompanhar suas solicitações clicando no link abaixo.
+http://biomed-websd.herokuapp.com
+
+Att.,
+Departamento Financeiro

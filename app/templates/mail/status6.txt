@@ -1,0 +1,15 @@
+Oi,
+
+Infelizmente, não foi possível aprovar a Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }}.
+
+Por favor, verifique as informações da Solicitação indicada e edite o que for pertinente.
+
+Clique no link abaixo para acessá-la.
+http://biomed-websd.herokuapp.com
+
+Não se esqueça que ao alterar as informações da Solicitação de Despesa, esta necessitará novamente de todas as aprovações e os prazos serão contados a partir das novas datas.
+
+Em caso de dúvida, é só nos chamar.
+
+Att.,
+Departamento Financeiro
