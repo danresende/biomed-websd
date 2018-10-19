@@ -23,12 +23,13 @@
                     SOLICITAÇÕES DE DESPESA
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table id="dtDespesas" class="table table-bordered table-hover">
+                        <thead>
                         <tr>
                             <th>Status</th>
                             <th>ID</th>
                             <th>Tipo</th>
-                            <th>Fornecedor</th>
+                            <th class="sm-column">Fornecedor</th>
                             <th>Departamento</th>
                             <th>Emissão</th>
                             <th>Vencimento</th>
@@ -37,21 +38,24 @@
                             <th>Criado por</th>
                             <th> </th>
                         </tr>
+                        </thead>
+                        <tbody>
                         {% for despesa in despesas %}
                         <tr id={{ despesa['id'] }}>
                             <td class="text-center"><img class="img-status" src="{{ url_for('static', filename='img/status/' + despesa['status'] + '.png') }}"></td>
                             <td>{{ despesa['id'] }}</td>
                             <td>{{ despesa['tipo_solicitacao'] }}</td>
-                            <td>{{ despesa['fornecedor'] }}</td>
-                            <td class="text-capitalize">{{ despesa['departamento'] }}</td>
+                            <td class="sm-column">{{ despesa['fornecedor'] }}</td>
+                            <td class="sm-column text-capitalize">{{ despesa['departamento'] }}</td>
                             <td>{{ despesa['data_criacao'].strftime('%d/%m/%Y') }}</td>
                             <td>{{ despesa['data_pagamento'].strftime('%d/%m/%Y') }}</td>
                             <td>{{ despesa['centro_custo'] }}</td>
                             <td>{{ despesa['valor_total'] }}</td>
-                            <td>{{ despesa['criado_por'] }}</td>
+                            <td class="sm-column">{{ despesa['criado_por'] }}</td>
                             <td><a href="{{ url_for('despesas.detalhar', id=despesa['id']) }}">Detalhar</a></td>
                         </tr>
                         {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -109,5 +113,8 @@
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 {% endblock %}
 

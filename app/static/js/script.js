@@ -1,3 +1,5 @@
+$('#dtDespesas').DataTable();
+
 $("#politica").hide();
 $('#observacao').hide();
 

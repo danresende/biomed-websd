@@ -7,7 +7,7 @@ label {
 }
 
 td {
-    max-width: 120px;
+    max-width: 110px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -54,6 +54,13 @@ td {
     color: #f6fafc;
     background-color: #44acdb;
     border-color: #44acdb;
+}
+
+.sm-column {
+    max-width: 95px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .btn-link {
