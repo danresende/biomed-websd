@@ -166,7 +166,9 @@
                         Número da previsão
                     </h4>
                     <p>
+                        <a href="{{ url_for('despesas.detalhar', id=despesa['previsao']) }}">
                         {{ despesa['previsao'] }}
+                        </a>
                     </p>
                 </div>
                 {% endif %}

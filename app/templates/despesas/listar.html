@@ -43,7 +43,7 @@
                         {% for despesa in despesas %}
                         <tr id={{ despesa['id'] }}>
                             <td class="text-center"><img class="img-status" src="{{ url_for('static', filename='img/status/' + despesa['status'] + '.png') }}"></td>
-                            <td>{{ despesa['id'] }}</td>
+                            <td><a href="{{ url_for('despesas.detalhar', id=despesa['id']) }}">{{ despesa['id'] }}</a></td>
                             <td>{{ despesa['tipo_solicitacao'] }}</td>
                             <td class="sm-column">{{ despesa['fornecedor'] }}</td>
                             <td class="sm-column text-capitalize">{{ despesa['departamento'] }}</td>
