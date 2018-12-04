@@ -363,9 +363,9 @@ def desaprovacao(id):
             despesa['status'] = '6'
 
         try:
-            # despesa['modificado_por'] = current_user.email
-            # despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
-            # db.child('despesas').child(id).update(despesa, current_user.idToken)
+            despesa['modificado_por'] = current_user.email
+            despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
+            db.child('despesas').child(id).update(despesa, current_user.idToken)
             send_mail(despesa, current_user, motivo)
 
         except Exception as e:
