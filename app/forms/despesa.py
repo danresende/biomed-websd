@@ -33,3 +33,6 @@ class DespesaForm(FlaskForm):
     boleto = FileField('Em caso de boleto, anexe aqui o arquivo (apenas PDF!):', validators=[FileAllowed(['pdf'], 'Apenas PDF!')])
     submit = SubmitField('Enviar')
 
+class MotivoDesaprovForm(FlaskForm):
+    motivo = TextAreaField('Motivo:', validators=[Length(min=10, max=280), DataRequired()])
+    submit = SubmitField('Enviar')

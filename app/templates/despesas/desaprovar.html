@@ -1,0 +1,27 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <h1>Motivo da desaprovação</h1>
+            <br>
+        </div>
+        <div class="col-md-12">
+            <form action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+                <div class="col-md-12">
+                    {% for error in form.motivo.errors %}
+                        <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                    {{ form.motivo(class_='form-control') }}
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    {{ form.submit(class_='btn btn-lg btn-primary btn-block') }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

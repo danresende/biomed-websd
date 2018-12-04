@@ -1,5 +1,5 @@
 import os
-from app.forms import DespesaForm
+from app.forms import DespesaForm, MotivoDesaprovForm
 from datetime import datetime
 from emailfunc import send_mail
 from firebase import db, storage
@@ -322,7 +322,7 @@ def aprovacao(id):
     return redirect(url_for('despesas.listar'))
 
 #Desaprovação
-@Despesas.route('/deaprovar/<id>')
+@Despesas.route('/desaprovar/<id>', methods=['GET', 'POST'])
 @login_required
 def desaprovacao(id):
     if current_user.is_active() and current_user.session_over():
@@ -352,24 +352,30 @@ def desaprovacao(id):
     else:
         resp_fin = False
 
-    if despesa['status'] == '1' and resp_depto:
-        despesa['status'] = '5'
+    form = MotivoDesaprovForm()
+    if form.validate_on_submit():
+        motivo = form.motivo.data
 
-    elif despesa['status'] == '2' and resp_fin:
-        despesa['status'] = '6'
+        if despesa['status'] == '1' and resp_depto:
+            despesa['status'] = '5'
 
-    try:
-        despesa['modificado_por'] = current_user.email
-        despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
-        db.child('despesas').child(id).update(despesa, current_user.idToken)
-        send_mail(despesa, current_user)
+        elif despesa['status'] == '2' and resp_fin:
+            despesa['status'] = '6'
 
-    except Exception as e:
-        mensagem = 'Não foi possível atualizar essa despesa.'
-        print(e)
-        flash(mensagem)
+        try:
+            # despesa['modificado_por'] = current_user.email
+            # despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
+            # db.child('despesas').child(id).update(despesa, current_user.idToken)
+            send_mail(despesa, current_user, motivo)
 
-    return redirect(url_for('despesas.listar'))
+        except Exception as e:
+            mensagem = 'Não foi possível atualizar essa despesa.'
+            print(e)
+            flash(mensagem)
+
+        return redirect(url_for('despesas.listar'))
+
+    return render_template('despesas/desaprovar.html', form=form, despesa=despesa)
 
 #Cancelar
 @Despesas.route('/cancelar/<id>')

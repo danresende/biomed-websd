@@ -9,7 +9,7 @@ def send_async_email(app, msg):
     with app.app_context():
         mail.send(msg)
 
-def send_mail(despesa, current_user):
+def send_mail(despesa, current_user, motivo=None):
 
     ADMIN = Config.ADMIN
 
@@ -62,6 +62,6 @@ def send_mail(despesa, current_user):
         return None
 
     msg = Message(subject, sender=sender, recipients=recipients)
-    msg.body = render_template('mail/' + template + '.txt', despesa=despesa)
-    msg.html = render_template('mail/' + template + '.html', despesa=despesa)
+    msg.body = render_template('mail/' + template + '.txt', despesa=despesa, motivo=motivo)
+    msg.html = render_template('mail/' + template + '.html', despesa=despesa, motivo=motivo)
     Thread(target=send_async_email, args=(app, msg)).start()

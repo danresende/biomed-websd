@@ -2,6 +2,9 @@ Oi,
 
 Infelizmente, não foi possível aprovar a Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }}.
 
+Motivo:
+{{ motivo }}
+
 Por favor, verifique as informações da Solicitação indicada e edite o que for pertinente.
 
 Clique no link abaixo para acessá-la.
