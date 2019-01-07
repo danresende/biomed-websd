@@ -58,6 +58,12 @@ def listar():
         despesa['data_criacao'] = datetime.strptime(despesa['data_criacao'], '%d/%m/%Y')
         despesa['data_pagamento'] = datetime.strptime(despesa['data_pagamento'], '%d/%m/%Y')
         despesa['data_ult_alt'] = datetime.strptime(despesa['data_ult_alt'], '%d/%m/%Y')
+
+        delta = datetime.now() - despesa['data_ult_alt']
+
+        if despesa['status'] >= '4' and delta.days > 120:
+            continue
+
         despesas.append(despesa)
 
     despesas = sorted(despesas, key=lambda k: k['data_criacao'], reverse=True)
