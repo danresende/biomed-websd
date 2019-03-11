@@ -1,5 +1,6 @@
 import os
 from app.forms import DespesaForm, MotivoDesaprovForm
+from config import Config
 from datetime import datetime
 from emailfunc import send_mail
 from firebase import db, storage
@@ -9,7 +10,7 @@ from werkzeug import secure_filename
 
 Despesas = Blueprint('despesas', __name__)
 
-# FunçÕes auxiliares
+# Funções auxiliares
 ################################################################################
 
 def teste_politica_pgto(despesa):
@@ -28,6 +29,9 @@ def teste_politica_pgto(despesa):
         flash('Este pagamento está fora da política de pagamentos. Caso não haja justificativa, não será aprovado pelo Financeiro.')
 
     return None
+
+FORMA_PGTO = dict(Config.FORMA_PGTO)
+TIPO_SOLICITACAO = dict(Config.TIPO_SOLICITACAO)
 
 
 # Despesas
@@ -154,6 +158,7 @@ def detalhar(id):
     despesa = db.child('despesas').child(id).get(current_user.idToken)
     despesa = dict(despesa.val())
     despesa['id'] = id
+
     if despesa['status'] <= '3' and despesa['tipo_solicitacao'] != '50':
         if 'previsao' not in despesa.keys():
             teste_politica_pgto(despesa)
@@ -167,6 +172,9 @@ def detalhar(id):
             print(e)
     else:
         arquivo_url = '#'
+
+    despesa['forma_pagamento'] = FORMA_PGTO[despesa['forma_pagamento']]
+    despesa['tipo_solicitacao'] = TIPO_SOLICITACAO[despesa['tipo_solicitacao']]
 
     if usuario['RD']:
 
