@@ -1,8 +1,13 @@
 $('#dtDespesas').DataTable();
 
 $("#politica").hide();
+
 if ($('campo_observacao') == ""){
     $('#observacao').hide();
+};
+
+if ($("#forma_pagamento option:selected").val() != 'BOL'){
+    $("#documento").hide();
 };
 
 function parseDate(str) {
