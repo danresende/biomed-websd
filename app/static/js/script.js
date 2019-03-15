@@ -1,7 +1,9 @@
 $('#dtDespesas').DataTable();
 
 $("#politica").hide();
-$('#observacao').hide();
+if ($('campo_observacao') == ""){
+    $('#observacao').hide();
+};
 
 function parseDate(str) {
     var date_parts = str.split("/");
