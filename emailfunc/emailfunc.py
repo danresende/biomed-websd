@@ -11,14 +11,15 @@ def send_async_email(app, msg):
 
 def send_mail(despesa, current_user, motivo=None):
 
+    MAIL_DOMAIN = Config.MAIL_DOMAIN
     ADMIN = Config.ADMIN
 
-    sender = current_user.email + '@biomedidas.com.br'
+    sender = current_user.email + '@' + MAIL_DOMAIN
 
     departamento = 'administrativo' if despesa['departamento'] == 'estoque' else despesa['departamento']
 
     recipients = dict(db.child('users').get(current_user.idToken).val())
-    recipients = [v['email'] + '@biomedidas.com.br'
+    recipients = [v['email'] + '@' + MAIL_DOMAIN
                     for k, v in recipients.items()
                     if v['RD'] and v['departamento'] == departamento]
 
@@ -28,7 +29,7 @@ def send_mail(despesa, current_user, motivo=None):
 
     elif despesa['status'] == '2':
         subject = '[WebSD] Uma nova solicitação foi aprovada pelo Responsável do Departamento'
-        recipients = [ADMIN, despesa['criado_por'] + '@biomedidas.com.br']
+        recipients = [ADMIN, despesa['criado_por'] + '@' + MAIL_DOMAIN]
         template = 'status2'
 
     elif despesa['status'] == '3':
@@ -38,18 +39,17 @@ def send_mail(despesa, current_user, motivo=None):
 
     elif despesa['status'] == '4':
         sender = ADMIN
-        recipients += [despesa['criado_por'] + '@biomedidas.com.br']
-        subject = '[WebSD] Sua solicitação foi incluida no sistema'
+        recipients += [despesa['criado_por'] + '@' + MAIL_DOMAIN]
         template = 'status4'
 
     elif despesa['status'] == '5':
         subject = '[WebSD] Sua solicitação de despesa NÃO foi aprovada pelo Responsável do Departamento'
-        recipients = [despesa['criado_por'] + '@biomedidas.com.br']
+        recipients = [despesa['criado_por'] + '@' + MAIL_DOMAIN]
         template = 'status5'
 
     elif despesa['status'] == '6':
         sender = ADMIN
-        recipients += [despesa['criado_por'] + '@biomedidas.com.br']
+        recipients += [despesa['criado_por'] + '@' + MAIL_DOMAIN]
         subject = '[WebSD] Sua solicitação de despesa NÃO foi aprovada pelo Depto Financeiro'
         template = 'status6'
 

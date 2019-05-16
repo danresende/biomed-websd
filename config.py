@@ -37,7 +37,6 @@ class Config(object):
                         ('50', 'Previsão'),
                         ('13', 'Reembolso')]
 
-    ADMIN = 'financeiro@biomedidas.com.br'
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
 
@@ -49,3 +48,6 @@ class Config(object):
 
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
+    MAIL_DOMAIN = os.environ.get('MAIL_DOMAIN')
+
+    ADMIN = 'financeiro@' + MAIL_DOMAIN
