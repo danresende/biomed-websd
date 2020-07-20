@@ -1,1 +1,1 @@
-web: gunicorn websd:app
+web: gunicorn --bind 0.0.0.0:$PORT websd:app
