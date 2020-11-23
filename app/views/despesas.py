@@ -21,14 +21,14 @@ def teste_politica_pgto(despesa):
     delta = data_pgto - hoje
     delta = delta.days + 1
 
-    if valor_pgto > 10000 and delta < 20:
-        flash('Este pagamento está fora da política de pagamentos. Por favor, descreva na observação o motivo da urgência.')
-    elif valor_pgto > 5000 and delta < 10:
-        flash('Este pagamento está fora da política de pagamentos. Por favor, descreva na observação o motivo da urgência.')
-    elif valor_pgto > 2500 and delta < 5:
-        flash('Este pagamento está fora da política de pagamentos. Por favor, descreva na observação o motivo da urgência.')
-    elif valor_pgto > 250 and delta < 2:
-        flash('Este pagamento está fora da política de pagamentos. Por favor, descreva na observação o motivo da urgência.')
+    if valor_pgto > 5000 and delta < 20:
+        flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
+    elif valor_pgto > 2500 and delta < 10:
+        flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
+    elif valor_pgto > 250 and delta < 5:
+        flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
+    elif valor_pgto <= 250 and delta < 2:
+        flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
 
     return None
 
