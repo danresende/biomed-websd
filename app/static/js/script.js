@@ -76,31 +76,31 @@ $(".btn").on("click", function(e){
         alert("Data inválida.");
         return false;
     } else if (obs == "") {
-        if (datediff == 1) {
-            alert("Vencimento menor do que 2 dias.\nJustifique a urgência em 'Observação', ou altere a data.");
+        if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
+            alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 20 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
             $("#politica").show();
-            placeholder = 'Justifique a necessidade de urgência deste pagamento.'
+            placeholder = 'Descreva o motivo de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
-        } else if (datediff < 5 && valor < 500 && (previsao === null || previsao == "")) {
-            alert("Valores até R$ 500,00 devem ter vencimento igual ou maior do que 5 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+        } else if (valor > 2500 && datediff < 10 && (previsao === null || previsao == "")) {
+            alert("Valores entre R$ 2.500,00 e R$ 5000,00 devem ter vencimento igual ou maior do que 10 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
             $("#politica").show();
-            placeholder = 'Justifique a necessidade de urgência deste pagamento.'
+            placeholder = 'Descreva a necessidade de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
-        } else if (datediff < 15 && valor >= 500  && valor < 5000 && (previsao === null || previsao == "")) {
-            alert("Valores entre R$ 500,00 e R$ 5000,00 devem ter vencimento igual ou maior do que 15 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+        } else if (valor > 250 && datediff < 5 && (previsao === null || previsao == "")) {
+            alert("Valores entre R$ 250,00 e R$ 2.500,00 devem ter vencimento igual ou maior do que 5 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
             $("#politica").show();
-            placeholder = 'Justifique a necessidade de urgência deste pagamento.'
+            placeholder = 'Descreva a necessidade de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
-        } else if (datediff < 30 && valor >= 5000 && (previsao === null || previsao == "")) {
-            alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 30 dias.\nJustifique a urgência em 'Observação' ou altere a data.");
+        } else if (valor <= 250 && datediff < 2 && (previsao === null || previsao == "")) {
+            alert("Valores até R$ 250,00 devem ter vencimento igual ou maior do que 2 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.\nCUIDADO, pois o prazo para inclusão da despesa no sistema pode chegar a dois dias úteis.");
             $("#politica").show();
-            placeholder = 'Justifique a necessidade de urgência deste pagamento.'
+            placeholder = 'Descreva a necessidade de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
