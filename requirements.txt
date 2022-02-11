@@ -19,7 +19,7 @@ pyasn1-modules==0.2.1
 pycryptodome==3.4.3
 -e git+https://github.com/danresende/Pyrebase.git@3e3e20c9fb1d83bd1c7b5779596460049c3fda62#egg=Pyrebase
 python-jwt==2.0.1
-requests==2.11.1
+requests==2.20.0
 requests-toolbelt==0.7.0
 rsa==4.7
 six==1.11.0
