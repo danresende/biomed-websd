@@ -71,8 +71,9 @@ $(".btn").on("click", function(e){
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
-    var numOfDates = getBusinessDatesCount(Date.now(),data_pagto);
-    
+    var hoje = new Date(Date.now());
+    var wd_datediff = getBusinessDatesCount(startDate,endDate) - 1;
+
     function getBusinessDatesCount(startDate, endDate) {
         let count = 0;
         const curDate = new Date(startDate.getTime());
@@ -81,17 +82,21 @@ $(".btn").on("click", function(e){
             if(dayOfWeek !== 0 && dayOfWeek !== 6) count++;
             curDate.setDate(curDate.getDate() + 1);
         }
-        alert(count);
         return count;
     }
-    
-    alert(numOfDates);
 
     if (datediff <= 0) {
         alert("Data inválida.");
         return false;
     } else if (obs == "") {
-        if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
+        if (wd_datediff <=1) {
+            alert("Não há tempo hábil para a inclusão desta Solicitação para pagamento.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
+            $("#politica").show();
+            placeholder = 'Descreva o motivo de urgência deste pagamento.'
+            $("#campo_observacao").attr('placeholder', placeholder);
+            $('#observacao').show();
+            return false;
+        } else if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
             alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 20 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
             $("#politica").show();
             placeholder = 'Descreva o motivo de urgência deste pagamento.'
