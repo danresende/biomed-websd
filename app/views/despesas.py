@@ -41,6 +41,9 @@ def teste_tempo_inclusao(despesa, target):
     hoje = datetime.now()
     wd_delta = busday_count(hoje.strftime('%Y-%m-%d'), data_pgto.strftime('%Y-%m-%d'))
     
+    dados = "Número de dias úteis: " + wd_delta + ", alvo: " + target
+    print(dados)
+    
     if wd_delta <= target:
         flash("Esta SD está com vencimento menor do que o necessário de inclusão para pagamento (2 dias úteis).\nPor favor, verifique se a data está correta ou o motivo da urgência está descrito.")
 
