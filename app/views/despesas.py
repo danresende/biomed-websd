@@ -23,7 +23,7 @@ def teste_politica_pgto(despesa):
     delta = delta.days + 1
     wd_delta = busday_count(hoje.strftime('%Y-%m-%d'), data_pgto.strftime('%Y-%m-%d'))
     
-    print(wd_delta)
+    print('Número de dias úteis:' + wd_delta)
     
     mensagem = 'Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.'
 
