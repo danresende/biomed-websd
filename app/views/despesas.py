@@ -2,6 +2,7 @@ import os
 from app.forms import DespesaForm, MotivoDesaprovForm
 from config import Config
 from datetime import datetime
+from numpy import busday_count
 from emailfunc import send_mail
 from firebase import db, storage
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
@@ -20,6 +21,7 @@ def teste_politica_pgto(despesa):
     hoje = datetime.now()
     delta = data_pgto - hoje
     delta = delta.days + 1
+    wd_delta = busday_count( hoje, data_pgto )
 
     if valor_pgto > 5000 and delta < 20:
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
@@ -29,6 +31,8 @@ def teste_politica_pgto(despesa):
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
     elif valor_pgto <= 250 and delta < 2:
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
+        
+    print(wd_delta, ' dias úteis até o vencimento.')
 
     return None
 
