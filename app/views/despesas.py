@@ -21,10 +21,6 @@ def teste_politica_pgto(despesa):
     hoje = datetime.now()
     delta = data_pgto - hoje
     delta = delta.days + 1
-    wd_delta = busday_count(hoje.strftime('%Y-%m-%d'), data_pgto.strftime('%Y-%m-%d'))
-    
-    if wd_delta <= 1:
-        flash("Não há tempo hábil para inclusão desta Solicitão para pagamento. Por favor, verifique se o motivo da urgência está descrito.")
     
     mensagem = 'Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.'
 
@@ -36,6 +32,17 @@ def teste_politica_pgto(despesa):
         flash(mensagem)
     elif valor_pgto <= 250 and delta < 2:
         flash(mensagem)
+
+    return None
+
+def teste_tempo_inclusao(despesa):
+
+    data_pgto = datetime.strptime(despesa['data_pagamento'], '%d/%m/%Y')
+    hoje = datetime.now()
+    wd_delta = busday_count(hoje.strftime('%Y-%m-%d'), data_pgto.strftime('%Y-%m-%d'))
+    
+    if wd_delta <= 1:
+        flash("Não há tempo hábil para inclusão desta Solicitão para pagamento. Por favor, verifique se o motivo da urgência está descrito.")
 
     return None
 
@@ -167,6 +174,9 @@ def detalhar(id):
     despesa = db.child('despesas').child(id).get(current_user.idToken)
     despesa = dict(despesa.val())
     despesa['id'] = id
+    
+    if despesa['status'] <= '3':
+        teste_tempo_inclusao(despesa)
 
     if despesa['status'] <= '3' and despesa['tipo_solicitacao'] != '50':
         if 'previsao' not in despesa.keys():
