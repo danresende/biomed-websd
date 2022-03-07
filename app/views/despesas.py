@@ -42,7 +42,7 @@ def teste_tempo_inclusao(despesa):
     wd_delta = busday_count(hoje.strftime('%Y-%m-%d'), data_pgto.strftime('%Y-%m-%d'))
     
     if wd_delta <= 1:
-        flash("Não há tempo hábil para inclusão desta Solicitão para pagamento. Por favor, verifique se o motivo da urgência está descrito.")
+        flash("Esta SD está com vencimento menor do que o necessário de inclusão para pagamento (2 dias úteis).\nPor favor, verifique se a data está correta ou o motivo da urgência está descrito.")
 
     return None
 
