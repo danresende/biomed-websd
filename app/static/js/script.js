@@ -84,6 +84,8 @@ $(".btn").on("click", function(e){
         alert(count);
         return count;
     }
+    
+    alert(numOfDates);
 
     if (datediff <= 0) {
         alert("Data inválida.");
