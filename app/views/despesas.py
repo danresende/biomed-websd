@@ -32,7 +32,10 @@ def teste_politica_pgto(despesa):
     elif valor_pgto <= 250 and delta < 2:
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
         
-    print(wd_delta, ' dias úteis até o vencimento.')
+    # Teste cálculo de dias úteis
+    message = "Esta despesa tem " + str(wd_delta) + " dias úteis até o vencimento"
+    flash(message)
+    ###
 
     return None
 
