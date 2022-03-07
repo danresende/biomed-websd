@@ -81,9 +81,9 @@ $(".btn").on("click", function(e){
             const dayOfWeek = curDate.getDay();
             if(dayOfWeek !== 0 && dayOfWeek !== 6) count++;
             curDate.setDate(curDate.getDate() + 1);
-        }
+        };
         return count;
-    }
+    };
 
     if (datediff <= 0) {
         alert("Data inválida.");
