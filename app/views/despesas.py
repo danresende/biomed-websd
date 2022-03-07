@@ -22,8 +22,6 @@ def teste_politica_pgto(despesa):
     delta = data_pgto - hoje
     delta = delta.days + 1
     wd_delta = busday_count(hoje, data_pgto)
-    
-    print(wd_delta)
 
     if valor_pgto > 5000 and delta < 20:
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
