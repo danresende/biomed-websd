@@ -71,6 +71,19 @@ $(".btn").on("click", function(e){
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
+    var numOfDates = getBusinessDatesCount(Date.now(),data_pagto);
+    
+    function getBusinessDatesCount(startDate, endDate) {
+        let count = 0;
+        const curDate = new Date(startDate.getTime());
+        while (curDate <= endDate) {
+            const dayOfWeek = curDate.getDay();
+            if(dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+            curDate.setDate(curDate.getDate() + 1);
+        }
+        alert(count);
+        return count;
+    }
 
     if (datediff <= 0) {
         alert("Data inválida.");
