@@ -89,14 +89,7 @@ $(".btn").on("click", function(e){
         alert("Data inválida.");
         return false;
     } else if (obs == "") {
-        if (wd_datediff <=1) {
-            alert("Não há tempo hábil para a inclusão desta Solicitação para pagamento.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
-            $("#politica").show();
-            placeholder = 'Descreva o motivo de urgência deste pagamento.'
-            $("#campo_observacao").attr('placeholder', placeholder);
-            $('#observacao').show();
-            return false;
-        } else if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
+        if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
             alert("Valores acima de R$ 5000,00 devem ter vencimento igual ou maior do que 20 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
             $("#politica").show();
             placeholder = 'Descreva o motivo de urgência deste pagamento.'
@@ -121,6 +114,13 @@ $(".btn").on("click", function(e){
             alert("Valores até R$ 250,00 devem ter vencimento igual ou maior do que 2 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.\nCUIDADO, pois o prazo para inclusão da despesa no sistema pode chegar a dois dias úteis.");
             $("#politica").show();
             placeholder = 'Descreva a necessidade de urgência deste pagamento.'
+            $("#campo_observacao").attr('placeholder', placeholder);
+            $('#observacao').show();
+            return false;
+        } else if (wd_datediff <=1) {
+            alert("Não há tempo hábil para a inclusão desta Solicitação Despesa para pagamento.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
+            $("#politica").show();
+            placeholder = 'Descreva o motivo de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
