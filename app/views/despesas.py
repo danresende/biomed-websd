@@ -6,6 +6,7 @@ from emailfunc import send_mail
 from firebase import db, storage
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_user, login_required, current_user
+from numpy import busday_count
 from werkzeug import secure_filename
 
 Despesas = Blueprint('despesas', __name__)
@@ -20,6 +21,9 @@ def teste_politica_pgto(despesa):
     hoje = datetime.now()
     delta = data_pgto - hoje
     delta = delta.days + 1
+    wd_delta = busday_count(hoje, data_pgto)
+    
+    print(wd_delta)
 
     if valor_pgto > 5000 and delta < 20:
         flash('Este pagamento está fora da política de pagamentos. Por favor, verifique se o motivo da urgência está descrito.')
