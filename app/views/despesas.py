@@ -178,9 +178,9 @@ def detalhar(id):
     despesa = dict(despesa.val())
     despesa['id'] = id
     
-    if despesa['status'] == '3':
+    if despesa['status'] == '2':
         teste_tempo_inclusao(despesa, 0)
-    elif despesa['status'] <= '2':
+    elif despesa['status'] == '1':
         teste_tempo_inclusao(despesa, 1)
 
     if despesa['status'] <= '3' and despesa['tipo_solicitacao'] != '50':
