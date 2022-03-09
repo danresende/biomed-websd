@@ -44,6 +44,9 @@ def teste_tempo_inclusao(despesa, target):
     if wd_delta <= target:
         flash("Esta SD está com vencimento menor do que o necessário de inclusão para pagamento (2 dias úteis). Por favor, verifique se a data está correta ou o motivo da urgência está descrito.")
 
+    print(wd_delta)
+    print(target)
+        
     return None
 
 FORMA_PGTO = dict(Config.FORMA_PGTO)
