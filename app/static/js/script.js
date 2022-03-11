@@ -67,11 +67,13 @@ $("#forma_pagamento").on("change", function(e){
 $(".btn").on("click", function(e){
 
     var data_pgto = parseDate($("#data_pagamento").val());
-    var datediff = daysdiff(Date.now(), data_pgto);
+    var hoje = new Date(Date.now());
+    var datediff = daysdiff(hoje, data_pgto);
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
     
+    console.log(hoje);
     console.log(data_pgto);
     console.log(datediff);
     console.log(valor);
