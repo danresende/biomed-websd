@@ -64,28 +64,20 @@ $("#forma_pagamento").on("change", function(e){
 
 });
 
-$("#data_pagamento").on("change", function(e){
-    var data_pgto = parseDate($("#data_pagamento").val());
-    var datediff = daysdiff(Date.now(), data_pgto);
-    if (datediff <= 0) {
-        alert("Data inválida.");
-    };
-};
 
 $(".btn").on("click", function(e){
 
     var data_pgto = parseDate($("#data_pagamento").val());
-    var hoje = new Date(Date.now());
-    var datediff = daysdiff(hoje, data_pgto);
-    var valor = toFloat($("#valor_pgto").val());
-    var obs = $("#campo_observacao").val();
-    var previsao = $("#campo_previsao").val();
-    
-    console.log(hoje);
     console.log(data_pgto);
+    var hoje = new Date(Date.now());
+    console.log(hoje);
+    var datediff = daysdiff(hoje, data_pgto);
     console.log(datediff);
+    var valor = toFloat($("#valor_pgto").val());
     console.log(valor);
+    var obs = $("#campo_observacao").val();
     console.log(obs);
+    var previsao = $("#campo_previsao").val();
     console.log(previsao);
 
     if (datediff <= 0) {
