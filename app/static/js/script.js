@@ -24,6 +24,31 @@ function toFloat(str) {
     return parseFloat(str.replace(",", "."))
 };
 
+function getBusinessDatesCount(startDate, endDate) {
+    let count = 0;
+    const curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+        const dayOfWeek = curDate.getDay();
+        if(dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+        curDate.setDate(curDate.getDate() + 1);
+    };
+    return count;
+};
+
+$("#data_pagamento").on("focusout", function(e){
+    var data_pgto = parseDate($("#data_pagamento").val());
+    var datediff = daysdiff(Date.now(), data_pgto);
+    var hoje = new Date(Date.now());
+    var wd_datediff = getBusinessDatesCount(hoje,data_pgto);
+    
+    if (datediff <= 0) {
+        alert("Data inválida.");
+    } else if (wd_datediff <= 1) {
+        alert("Tempo muito curto para inclusão para pagamento.\nPor favor, altere a data ou inclua o motivo da urgência.");
+    }; 
+});
+
+
 $("#tipo").on("change", function(e){
 
     var forma_pgto = $("#forma_pagamento option:selected").val();
