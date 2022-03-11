@@ -64,6 +64,14 @@ $("#forma_pagamento").on("change", function(e){
 
 });
 
+$("#data_pagamento").on("change", function(e){
+    var data_pgto = parseDate($("#data_pagamento").val());
+    var datediff = daysdiff(Date.now(), data_pgto);
+    if (datediff <= 0) {
+        alert("Data inválida.");
+    };
+};
+
 $(".btn").on("click", function(e){
 
     var data_pgto = parseDate($("#data_pagamento").val());
