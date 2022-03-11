@@ -71,19 +71,6 @@ $(".btn").on("click", function(e){
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
-    var hoje = new Date(Date.now());
-    var wd_datediff = getBusinessDatesCount(startDate,endDate) - 1;
-
-    function getBusinessDatesCount(startDate, endDate) {
-        let count = 0;
-        const curDate = new Date(startDate.getTime());
-        while (curDate <= endDate) {
-            const dayOfWeek = curDate.getDay();
-            if(dayOfWeek !== 0 && dayOfWeek !== 6) count++;
-            curDate.setDate(curDate.getDate() + 1);
-        };
-        return count;
-    };
 
     if (datediff <= 0) {
         alert("Data inválida.");
@@ -114,13 +101,6 @@ $(".btn").on("click", function(e){
             alert("Valores até R$ 250,00 devem ter vencimento igual ou maior do que 2 dias.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.\nCUIDADO, pois o prazo para inclusão da despesa no sistema pode chegar a dois dias úteis.");
             $("#politica").show();
             placeholder = 'Descreva a necessidade de urgência deste pagamento.'
-            $("#campo_observacao").attr('placeholder', placeholder);
-            $('#observacao').show();
-            return false;
-        } else if (wd_datediff <=1) {
-            alert("Não há tempo hábil para a inclusão desta Solicitação Despesa para pagamento.\nDescreva o motivo da urgência no campo 'Observação' ou altere a data.");
-            $("#politica").show();
-            placeholder = 'Descreva o motivo de urgência deste pagamento.'
             $("#campo_observacao").attr('placeholder', placeholder);
             $('#observacao').show();
             return false;
