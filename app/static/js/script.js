@@ -80,6 +80,7 @@ $(".btn").on("click", function(e){
     var previsao = $("#campo_previsao").val();
     console.log(previsao);
 
+ /*
     if (datediff <= 0) {
         alert("Data inválida.");
         return false;
@@ -113,7 +114,7 @@ $(".btn").on("click", function(e){
             $('#observacao').show();
             return false;
         };
-    };
+    }; */
 });
 
 
