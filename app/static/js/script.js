@@ -71,6 +71,12 @@ $(".btn").on("click", function(e){
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
+    
+    console.log(data_pgto);
+    console.log(datediff);
+    console.log(valor);
+    console.log(obs);
+    console.log(previsao);
 
     if (datediff <= 0) {
         alert("Data inválida.");
