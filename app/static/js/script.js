@@ -67,8 +67,8 @@ $("#forma_pagamento").on("change", function(e){
 
 $("#submit_btn").on("click", function(e){
 
-    var data_pgto = parseDate($("#data_pagamento").val());
-    console.log(data_pgto);
+/*   var data_pgto = parseDate($("#data_pagamento").val()); */
+    console.log("A função funciona");
 /*  var hoje = new Date(Date.now());
     console.log(hoje);
     var datediff = daysdiff(hoje, data_pgto);
