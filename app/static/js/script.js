@@ -65,7 +65,7 @@ $("#forma_pagamento").on("change", function(e){
 });
 
 
-$(".btn").on("click", function(e){
+$("#submit_btn").on("click", function(e){
 
     var data_pgto = parseDate($("#data_pagamento").val());
     console.log(data_pgto);
