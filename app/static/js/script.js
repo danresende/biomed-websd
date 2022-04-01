@@ -47,7 +47,7 @@ $("#data_pagamento").on("focusout", function(e){
     
     if (datediff <= 0) {
         alert("Data inválida.");
-    } else if (datediff <=2 && wd_datediff <= 1) {
+    } else if (datediff <= 2 && wd_datediff <= 1) {
         alert("Tempo muito curto para inclusão para pagamento.\nPor favor, altere a data ou inclua o motivo da urgência.");
     }; 
 });
