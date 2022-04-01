@@ -2,9 +2,7 @@ $('#dtDespesas').DataTable();
 
 $("#politica").hide();
 
-/*if ($('campo_observacao').val() == ""){*/
-    $('#observacao').hide();
-/*};*/
+$('#observacao').hide();
 
 if ($("#forma_pagamento option:selected").val() != 'BOL'){
     $("#documento").hide();
