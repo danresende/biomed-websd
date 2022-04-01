@@ -47,7 +47,7 @@ $("#data_pagamento").on("focusout", function(e){
     
     if (datediff <= 0) {
         alert("Data inválida.");
-    } else if (wd_datediff <= 1) {
+    } else if (datediff <=2 && wd_datediff <= 1) {
         alert("Tempo muito curto para inclusão para pagamento.\nPor favor, altere a data ou inclua o motivo da urgência.");
     }; 
 });
@@ -96,22 +96,14 @@ $("#forma_pagamento").on("change", function(e){
 
 $("#submit_btn").on("click", function(e){
 
-    console.log("Você clicou no botão!")
     var data_pgto = parseDate($("#data_pagamento").val());
-    console.log(data_pgto);
     var hoje = new Date(Date.now());
-    console.log(hoje);
     var datediff = daysdiff(hoje, data_pgto);
-    console.log(datediff);
     var valor = toFloat($("#valor_pgto").val());
-    console.log(valor);
     var obs = $("#campo_observacao").val();
-    console.log(obs);
     var previsao = $("#campo_previsao").val();
-    console.log(previsao);
 
-/* 
-    if (datediff <= 0) {
+ /*   if (datediff <= 0) {
         alert("Data inválida.");
         return false;
     } else if (obs == "") {
