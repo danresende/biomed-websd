@@ -2,7 +2,7 @@ $('#dtDespesas').DataTable();
 
 $("#politica").hide();
 
-if ($('campo_observacao') == ""){
+if ($('campo_observacao').val() == ""){
     $('#observacao').hide();
 };
 
