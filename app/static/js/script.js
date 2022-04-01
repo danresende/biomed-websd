@@ -136,7 +136,7 @@ $("#submit_btn").on("click", function(e){
             $('#observacao').show();
             return false;
         };
-    }; */
+    };
 });
 
 
