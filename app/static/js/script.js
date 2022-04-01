@@ -37,13 +37,9 @@ function getBusinessDatesCount(startDate, endDate) {
 
 $("#data_pagamento").on("focusout", function(e){
     var data_pgto = parseDate($("#data_pagamento").val());
-    console.log(data_pgto);
     var datediff = daysdiff(Date.now(), data_pgto);
-    console.log(datediff);
     var hoje = new Date(Date.now());
-    console.log(hoje);
     var wd_datediff = getBusinessDatesCount(hoje,data_pgto);
-    console.log(wd_datediff);
     
     if (datediff <= 0) {
         alert("Data inválida.");
