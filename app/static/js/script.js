@@ -95,12 +95,16 @@ $("#submit_btn").on("click", function(e){
     var data_pgto = parseDate($("#data_pagamento").val());
     var hoje = new Date(Date.now());
     var datediff = daysdiff(hoje, data_pgto);
+    var wd_datediff = getBusinessDatesCount(hoje,data_pgto);
     var valor = toFloat($("#valor_pgto").val());
     var obs = $("#campo_observacao").val();
     var previsao = $("#campo_previsao").val();
 
- /*   if (datediff <= 0) {
+    if (datediff <= 0) {
         alert("Data inválida.");
+        return false;
+    } else if (datediff <= 3 && wd_datediff <= 1) {
+        alert("Tempo muito curto para inclusão para pagamento.\nPor favor, altere a data ou inclua o motivo da urgência.");
         return false;
     } else if (obs == "") {
         if (valor > 5000 && datediff < 20 && (previsao === null || previsao == "")) {
