@@ -96,9 +96,10 @@ $("#forma_pagamento").on("change", function(e){
 
 $("#submit_btn").on("click", function(e){
 
-/*   var data_pgto = parseDate($("#data_pagamento").val()); */
-    console.log("A função funciona");
-/*  var hoje = new Date(Date.now());
+    console.log("Você clicou no botão!")
+    var data_pgto = parseDate($("#data_pagamento").val());
+    console.log(data_pgto);
+    var hoje = new Date(Date.now());
     console.log(hoje);
     var datediff = daysdiff(hoje, data_pgto);
     console.log(datediff);
@@ -109,7 +110,7 @@ $("#submit_btn").on("click", function(e){
     var previsao = $("#campo_previsao").val();
     console.log(previsao);
 
- 
+/* 
     if (datediff <= 0) {
         alert("Data inválida.");
         return false;
