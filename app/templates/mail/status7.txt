@@ -3,7 +3,7 @@ Oi,
 Gostaria de avisar que a Solicitação de Despesa {{ despesa['id'] }} no valor R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }} foi cancelada e pode ser retirada do sistema.
 
 Você pode conferir clicando no link abaixo:
-http://biomed-websd.herokuapp.com
+http://websd.biomedequipamentos.com.br
 
 Att.,
 {{ current_user.nome }} {{ current_user.sobrenome }}

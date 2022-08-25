@@ -5,7 +5,7 @@ Criei a Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['v
 Caso esteja tudo certo, poderia autorizá-la, por favor?
 
 Para acessá-la basta clicar no link abaixo:
-http://biomed-websd.herokuapp.com
+http://websd.biomedequipamentos.com.br
 
 Lembrando que o prazo de pagamento mínimo começa a contar a partir da autorização pelo responsável do departamento, portanto caso o prazo para pagamento a partir da data de autorização não esteja de acordo com a política de pagamentos esta solicitação poderá não ser aprovada pelo Departamento Financeiro.
 

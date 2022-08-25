@@ -3,7 +3,7 @@ Oi,
 A Solicitação de Despesa {{ despesa['id'] }} no valor de R${{ despesa['valor_total'] }} para pagamento em {{ despesa['data_pagamento'] }} pode ser incluída no sistema.
 
 Clique no link abaixo para acessá-la:
-http://biomed-websd.herokuapp.com
+http://websd.biomedequipamentos.com.br
 
 Att.,
 
