@@ -2,7 +2,6 @@
     "version": 2,
     "builds": [
         {
-            "src": "./websd.py",
             "use": "@vercel/python"
         }
     ],
