@@ -17,7 +17,8 @@ class Config(object):
     }
 
     EMPRESA = [('biomed', 'Biomed'),
-               ('eletromed', 'Eletromed')]
+               ('eletromed', 'Eletromed'),
+               ('resende', 'Resende')]
 
     DEPARTAMENTOS = [('administrativo', 'Administrativo'),
                      ('comercial', 'Comercial'),
