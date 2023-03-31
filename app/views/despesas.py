@@ -457,6 +457,7 @@ def efetivar(id):
     despesa = db.child('despesas').child(id).get(current_user.idToken)
     despesa = dict(despesa.val())
     despesa['previsao'] = id
+    despesa['tipo_solicitacao'] = '04'
 
     form = DespesaForm()
     if form.validate_on_submit():
