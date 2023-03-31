@@ -463,7 +463,9 @@ def efetivar(id):
         despesa = {
             'id': datetime.now().strftime('%Y%m%d%H%M%S'),
             'centro_custo': form.centro_custo.data,
+            'criado_por': current_user.email,
             'modificado_por': current_user.email,
+            'data_criacao': datetime.now().strftime('%d/%m/%Y'),
             'data_pagamento': form.data_pagamento.data.strftime('%d/%m/%Y'),
             'data_ult_alt': datetime.now().strftime('%d/%m/%Y'),
             'departamento': form.departamento.data,
@@ -471,11 +473,12 @@ def efetivar(id):
             'empresa': form.empresa.data,
             'fornecedor': form.fornecedor.data,
             'forma_pagamento': form.forma_pagamento.data,
+            'previsao': form.previsao.data,
             'observacao': form.observacao.data,
             'tipo_solicitacao': form.tipo_solicitacao.data,
             'valor_total': '{:.2f}'.format(form.valor_total.data),
-            'previsao': form.previsao.data,
-            'status': '1'
+            'status': '1',
+            'tem_arquivo': False
         }
 
         if form.boleto.data is not None:
@@ -487,12 +490,10 @@ def efetivar(id):
             despesa['status'] = '2'
 
         try:
-            despesa['modificado_por'] = current_user.email
-            despesa['data_ult_alt'] = datetime.now().strftime('%d/%m/%Y')
             if form.boleto.data is not None:
-                response = storage.child('boletos/' + id).put(boleto, current_user.idToken)
+                response = storage.child('boletos/' + despesa['id']).put(boleto, current_user.idToken)
                 despesa['download_token'] = response['downloadTokens']
-            db.child('despesas').child(id).update(despesa, current_user.idToken)
+            db.child('despesas').child(despesa['id']).update(despesa, current_user.idToken)
             send_mail(despesa, current_user)
             return redirect(url_for('despesas.listar'))
 
