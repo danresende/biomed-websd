@@ -89,7 +89,7 @@ def listar():
 
         despesas.append(despesa)
 
-    despesas = sorted(despesas, key=lambda k: k['data_criacao'], reverse=True)
+    despesas = sorted(despesas, key=lambda k: k['id'], reverse=True)
 
     depto_usuario = current_user.departamento
 
