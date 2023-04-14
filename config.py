@@ -29,6 +29,7 @@ class Config(object):
                      ('técnico', 'Técnico')]
 
     FORMA_PGTO = [('BOL', 'Boleto'),
+                  ('CRT', 'Cartão de Crédito'),
                   ('CHQ', 'Cheque'),
                   ('DEP', 'Depósito'),
                   ('DIN', 'Dinheiro')]
