@@ -20,12 +20,14 @@ from flask import Flask
 from config import Config
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_talisman import Talisman
 from logging.handlers import SMTPHandler
 
 
 # Setup app
 ################################################################################
 app = Flask(__name__)
+Talisman(app)
 app.config.from_object(Config)
 login = LoginManager()
 login.init_app(app)

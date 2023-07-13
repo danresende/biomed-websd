@@ -7,6 +7,7 @@ Flask==1.1.4
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
 Flask-WTF==0.14.2
+flask-talisman==1.0.0
 gcloud==0.17.0
 googleapis-common-protos==1.5.3
 gunicorn==19.7.1
