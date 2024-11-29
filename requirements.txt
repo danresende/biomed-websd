@@ -26,7 +26,7 @@ pycryptodome==3.15.0
 pyparsing==2.4.7
 Pyrebase @ git+https://github.com/danresende/Pyrebase.git@0cee02aacfec8f910ce03a40d2a7a35fac840f6c
 python-jwt==2.0.1
-requests==2.28.1
+requests==2.32.2
 requests-toolbelt==0.9.1
 rsa==4.7
 six==1.11.0
