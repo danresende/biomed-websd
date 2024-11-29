@@ -7,7 +7,7 @@ from firebase import db, storage
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_user, login_required, current_user
 from numpy import busday_count
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 Despesas = Blueprint('despesas', __name__)
 
