@@ -1,0 +1,149 @@
+{% extends "base/layout.html" %}
+
+{% block actions %}
+<li>
+    <a href="{{ url_for('despesas.listar') }}">
+        <img class="img-actions" src="{{ url_for('static', filename='img/actions/voltar.png') }}">
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <h1>Efetivar despesa</h1>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-12 text-center" id="politica">
+            <div class="col-md-12">
+                <h4>Política de solicitação de despesas.</h4>
+                <p><strong>Para valores menores que R$ 500,00:</strong> prazo de pagamento mínimo de 5 dias.</p>
+                <p><strong>Para valores entre R$ 500,00 e R$ 5.000,00:</strong> prazo de pagamento mínimo de 15 dias.</p>
+                <p><strong>Para valores maiores que R$ 5.000,00:</strong> prazo de pagamento mínimo de 30 dias.</p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    {{ form.empresa.label }}
+                    {% for error in form.empresa.errors %}
+                        <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                    {{ form.empresa(class_='form-control') }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.fornecedor.label }}
+                    {% for error in form.fornecedor.errors %}
+                        <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                    {{ form.fornecedor(class_='form-control') }}
+                </div>
+            </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        {{ form.centro_custo.label }}
+                        {% for error in form.centro_custo.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.centro_custo(class_='form-control', placeholder='##.##.##.####', size=13) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.data_pagamento.label }}
+                        {% for error in form.data_pagamento.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.data_pagamento(class_='form-control', id='data_pagamento', placeholder='DD/MM/AAAA') }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.valor_total.label }}
+                        {% for error in form.valor_total.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.valor_total(class_='form-control', id='valor_pgto', placeholder='0,00') }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        {{ form.departamento.label }}
+                        {% for error in form.departamento.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.departamento(class_='form-control') }}
+                    </div>
+                    <div class="col-md-3" id="tipo">
+                        {{ form.tipo_solicitacao.label }}
+                        {% for error in form.tipo_solicitacao.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.tipo_solicitacao(class_='form-control') }}
+                    </div>
+                    <div class="col-md-3" id="forma_pagamento">
+                        {{ form.forma_pagamento.label }}
+                        {% for error in form.forma_pagamento.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.forma_pagamento(class_='form-control') }}
+                    </div>
+                    <div class="col-md-3" id="previsao">
+                        {{ form.previsao.label }}
+                        {% for error in form.previsao.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.previsao(class_='form-control', id='campo_previsao') }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        {{ form.descricao.label }}
+                        {% for error in form.descricao.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form.descricao(class_='form-control', placeholder='Descreva aqui a despesa.', cols=50, rows=5) }}
+                    </div>
+                </div>
+                <div class="col-md-12" id="observacao">
+                    <div class="col-md-12">
+                        {{ form.observacao.label }}
+                        {% for error in form.observacao.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form.observacao(class_='form-control', id='campo_observacao', cols=50, rows=5) }}
+                    </div>
+                </div>
+                <div class="col-md-12" id="documento">
+                    <div class="col-md-12">
+                        {{ form.boleto.label }}
+                        {% for error in form.boleto.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form.boleto(class_='form-control') }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <br>
+                        {{ form.submit(class_='btn btn-lg btn-primary btn-block') }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+{% endblock %}
+

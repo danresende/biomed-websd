@@ -17,7 +17,9 @@ class Config(object):
     }
 
     EMPRESA = [('biomed', 'Biomed'),
-               ('eletromed', 'Eletromed')]
+               ('eletromed', 'Eletromed'),
+               ('resende', 'Resende'),
+               ('lmed', 'LMed')]
 
     DEPARTAMENTOS = [('administrativo', 'Administrativo'),
                      ('comercial', 'Comercial'),
@@ -28,6 +30,7 @@ class Config(object):
                      ('técnico', 'Técnico')]
 
     FORMA_PGTO = [('BOL', 'Boleto'),
+                  ('CRT', 'Cartão de Crédito'),
                   ('CHQ', 'Cheque'),
                   ('DEP', 'Depósito'),
                   ('DIN', 'Dinheiro')]

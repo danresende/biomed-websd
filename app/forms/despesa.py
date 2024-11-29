@@ -21,7 +21,7 @@ class FlexibleDecimalField(DecimalField):
 class DespesaForm(FlaskForm):
     empresa = SelectField('Empresa', choices=EMPRESA, validators=[DataRequired()])
     centro_custo = StringField('Centro de custo (não esqueça dos pontos):', validators=[DataRequired()])
-    data_pagamento = DateField('Vencimento: ', format='%d/%m/%Y', validators=[DataRequired()])
+    data_pagamento = DateField('Vencimento: ', validators=[DataRequired()])
     departamento = SelectField('Departamento:', choices=DEPARTAMENTOS, validators=[DataRequired()])
     fornecedor = StringField('Fornecedor', validators=[DataRequired()])
     descricao = TextAreaField('Descrição:', validators=[Length(min=10, max=280), DataRequired()])
