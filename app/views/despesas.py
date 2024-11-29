@@ -7,7 +7,7 @@ from firebase import db, storage
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_user, login_required, current_user
 from numpy import busday_count
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 Despesas = Blueprint('despesas', __name__)
 
@@ -89,7 +89,7 @@ def listar():
 
         despesas.append(despesa)
 
-    despesas = sorted(despesas, key=lambda k: k['data_criacao'], reverse=True)
+    despesas = sorted(despesas, key=lambda k: k['id'], reverse=True)
 
     depto_usuario = current_user.departamento
 
@@ -447,3 +447,75 @@ def cancelar(id):
 
     return redirect(url_for('despesas.listar'))
 
+# Efetivar
+@Despesas.route('/efetivar/<id>', methods=['GET', 'POST'])
+@login_required
+def efetivar(id):
+    if current_user.is_active() and current_user.session_over():
+        current_user.reset_token()
+
+    despesa = db.child('despesas').child(id).get(current_user.idToken)
+    despesa = dict(despesa.val())
+    despesa['previsao'] = id
+    despesa['tipo_solicitacao'] = '04'
+
+    form = DespesaForm()
+    if form.validate_on_submit():
+        despesa = {
+            'id': datetime.now().strftime('%Y%m%d%H%M%S'),
+            'centro_custo': form.centro_custo.data,
+            'criado_por': current_user.email,
+            'modificado_por': current_user.email,
+            'data_criacao': datetime.now().strftime('%d/%m/%Y'),
+            'data_pagamento': form.data_pagamento.data.strftime('%d/%m/%Y'),
+            'data_ult_alt': datetime.now().strftime('%d/%m/%Y'),
+            'departamento': form.departamento.data,
+            'descricao': form.descricao.data,
+            'empresa': form.empresa.data,
+            'fornecedor': form.fornecedor.data,
+            'forma_pagamento': form.forma_pagamento.data,
+            'previsao': form.previsao.data,
+            'observacao': form.observacao.data,
+            'tipo_solicitacao': form.tipo_solicitacao.data,
+            'valor_total': '{:.2f}'.format(form.valor_total.data),
+            'status': '1',
+            'tem_arquivo': False
+        }
+
+        if form.boleto.data is not None:
+            despesa['tem_arquivo'] = True
+            boleto = os.path.join('/tmp', secure_filename(form.boleto.data.filename))
+            form.boleto.data.save(boleto)
+
+        if despesa['departamento'] == 'diretoria':
+            despesa['status'] = '2'
+
+        try:
+            if form.boleto.data is not None:
+                response = storage.child('boletos/' + despesa['id']).put(boleto, current_user.idToken)
+                despesa['download_token'] = response['downloadTokens']
+            db.child('despesas').child(despesa['id']).update(despesa, current_user.idToken)
+            send_mail(despesa, current_user)
+            return redirect(url_for('despesas.listar'))
+
+        except Exception as e:
+            mensagem = 'Não foi possível atualizar essa despesa.'
+            print(e)
+            flash(mensagem)
+
+        return redirect(url_for('despesas.detalhar', id=id))
+
+    elif request.method == 'GET':
+        form.centro_custo.data = despesa['centro_custo']
+        form.data_pagamento.data = datetime.strptime(despesa['data_pagamento'], "%d/%m/%Y")
+        form.departamento.data = despesa['departamento']
+        form.descricao.data = despesa['descricao']
+        form.empresa.data = despesa['empresa']
+        form.fornecedor.data = despesa['fornecedor']
+        form.forma_pagamento.data = despesa['forma_pagamento']
+        form.previsao.data = despesa['previsao']
+        form.observacao.data = despesa['observacao']
+        form.tipo_solicitacao.data = despesa['tipo_solicitacao']
+        form.valor_total.data = float(despesa['valor_total'])
+
+    return render_template('despesas/efetivar.html', form=form, despesa=despesa)
