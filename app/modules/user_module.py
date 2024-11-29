@@ -1,10 +1,13 @@
 import time
-from app import login
+
 from flask_login import UserMixin
+
+from app import login
 from config import Config
-from firebase import db, auth
+from firebase import auth, db
 
 admin = Config.ADMIN
+
 
 class User(UserMixin):
     def __init__(self, localId, idToken, refreshToken):
@@ -14,25 +17,26 @@ class User(UserMixin):
 
     def load_user_info(self):
         try:
-            user = db.child('users').child(self.localId).get(self.idToken)
+            user = db.child("users").child(self.localId).get(self.idToken)
             user = {info.key(): info.val() for info in user.each()}
-            self.nome = user['nome']
-            self.sobrenome = user['sobrenome']
-            self.email = user['email']
-            self.departamento = user['departamento']
-            self.DBA = bool(user['DBA'])
-            self.RD = bool(user['RD'])
-        except:
-            self.nome = 'Cadatrar'
-            self.sobrenome = 'Usuário'
+            self.nome = user["nome"]
+            self.sobrenome = user["sobrenome"]
+            self.email = user["email"]
+            self.departamento = user["departamento"]
+            self.DBA = bool(user["DBA"])
+            self.RD = bool(user["RD"])
+        except Exception as e:
+            self.nome = "Cadatrar"
+            self.sobrenome = "Usuário"
             self.email = admin
-            self.departamento = 'Sem departamento'
+            self.departamento = "Sem departamento"
             self.DBA = False
             self.RD = False
+            print(e)
         return None
 
     def reset_token(self):
-        token = auth.refresh(self.refreshToken)['idToken']
+        token = auth.refresh(self.refreshToken)["idToken"]
         self.idToken = token
         self.start_session(time.time())
         return None
@@ -56,9 +60,8 @@ class User(UserMixin):
 @login.user_loader
 def load_user(user_info):
     user_id, user_refresh_token = user_info
-    user_token = auth.refresh(user_refresh_token)['idToken']
+    user_token = auth.refresh(user_refresh_token)["idToken"]
     user = User(user_id, user_token, user_refresh_token)
     user.start_session(time.time())
     user.load_user_info()
     return user
-

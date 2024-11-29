@@ -4,17 +4,12 @@
 #                                                                              #
 ################################################################################
 
-
-#! /usr/bin/env python3
-#-*- coding: latin-1 -*-
-
 # Autor do app
 __autor__ = 'Daniel Resende'
 
 
 # Bibliotecas
 ################################################################################
-import os
 import logging
 from flask import Flask
 from config import Config
@@ -58,8 +53,8 @@ if not app.debug:
         mail_handler = SMTPHandler(
             mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
             fromaddr='no_reply@' + app.config['MAIL_SERVER'],
-            toaddrs = app.config['ADMIN'],
-            subject = 'Erro em WebSD',
+            toaddrs=app.config['ADMIN'],
+            subject='Erro em WebSD',
             credentials=auth,
             secure=secure)
         mail_handler.setLevel(logging.ERROR)
