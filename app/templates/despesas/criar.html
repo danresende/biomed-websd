@@ -70,27 +70,28 @@
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         {{ form.departamento.label }}
                         {% for error in form.departamento.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
                         {{ form.departamento(class_='form-control') }}
                     </div>
-                    <div class="col-md-3" id="tipo">
+                    <div class="col-md-4" id="tipo">
                         {{ form.tipo_solicitacao.label }}
                         {% for error in form.tipo_solicitacao.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
                         {{ form.tipo_solicitacao(class_='form-control') }}
                     </div>
-                    <div class="col-md-3" id="forma_pagamento">
+                    <div class="col-md-4" id="forma_pagamento">
                         {{ form.forma_pagamento.label }}
                         {% for error in form.forma_pagamento.errors %}
                             <span class="error">[{{ error }}]</span>
                         {% endfor %}
                         {{ form.forma_pagamento(class_='form-control') }}
                     </div>
+                    <!--
                     <div class="col-md-3" id="previsao">
                         {{ form.previsao.label }}
                         {% for error in form.previsao.errors %}
@@ -98,6 +99,7 @@
                         {% endfor %}
                         {{ form.previsao(class_='form-control', id='campo_previsao') }}
                     </div>
+                    -->
                 </div>
 
                 <div class="col-md-12">
