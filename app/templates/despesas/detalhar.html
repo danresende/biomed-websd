@@ -218,7 +218,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                {% if despesa['tipo_solicitacao'] == 'Previsão' and despesa['status'] == '4' %}
+                {% if despesa['tipo_solicitacao'] == 'Previsão' and despesa['status'] == '4' and vencimento_valido %}
                 <br>
                 <a href="{{ url_for('despesas.efetivar', id=despesa['id']) }}">
                     <button type="button" class="btn btn-lg btn-primary btn-blocks">Efetivar previsão</button>

@@ -56,6 +56,14 @@ def teste_tempo_inclusao(despesa, target):
     return None
 
 
+def teste_vencimento_valido(despesa):
+    data_pagamento = datetime.strptime(despesa["data_pagamento"], "%d/%m/%Y")
+    if data_pagamento > datetime.today():
+        return True
+    else:
+        return False
+
+
 FORMA_PGTO = dict(Config.FORMA_PGTO)
 TIPO_SOLICITACAO = dict(Config.TIPO_SOLICITACAO)
 
@@ -249,12 +257,15 @@ def detalhar(id):
     else:
         pode_aprovar = False
 
+    vencimento_valido = teste_vencimento_valido(despesa)
+
     return render_template(
         "despesas/detalhar.html",
         despesa=despesa,
         usuario=usuario,
         download=arquivo_url,
         pode_aprovar=pode_aprovar,
+        vencimento_valido=vencimento_valido,
     )
 
 
