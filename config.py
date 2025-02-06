@@ -5,11 +5,13 @@ import urllib.request
 from dotenv import load_dotenv
 
 # Se em produção e hpuver o arquivo .env, carrega este ao invés de usar variáveis de ambiente
-try:
-    if not os.environ.get('FLASK_DEBUG'):
+if not os.environ.get('FLASK_DEBUG'):
+    try:
+        print("Carregando arquivo de configurações")
         load_dotenv()
-except Exception as e:
-    pass
+    except Exception as e:
+        print("Não foi possível carregar o arquivo de configurações")
+        pass
 
 with urllib.request.urlopen(os.environ['PATH_TO_JSON']) as url:
     serviceAccount = json.loads(url.read().decode())
