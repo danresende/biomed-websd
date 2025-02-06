@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app.forms import LoginForm
@@ -29,7 +29,7 @@ def login():
             login_user(user)
             return redirect(url_for("despesas.listar"))
         except Exception as e:
-            print(e)
+            current_app.logger.error(f"Usuário {form.email.data} não conseguiu acessar o sistema.\nErro do programa:\n{e}")
             mensagem = json.loads(e.strerror)["error"]["message"]
             mensagem = mensagem.replace("_", " ")
             flash(mensagem)

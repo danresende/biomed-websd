@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from numpy import busday_count
 from werkzeug.utils import secure_filename
@@ -50,9 +50,6 @@ def teste_tempo_inclusao(despesa, target):
             "Esta SD está com vencimento menor do que o necessário de inclusão para pagamento (2 dias úteis). Por favor, verifique se a data está correta ou o motivo da urgência está descrito."
         )
 
-    print(wd_delta)
-    print(target)
-
     return None
 
 
@@ -89,7 +86,7 @@ def listar():
 
     except Exception as e:
         data = {}
-        print(e)
+        current_app.logger.error(f"Usuário {current_user.email} não conseguiu carregar a lista de despesas.\nErro do programa:\n{e}")
 
     despesas = []
     for k, v in data.items():
@@ -196,8 +193,8 @@ def criar():
             return redirect(url_for("despesas.listar"))
 
         except Exception as e:
+            current_app.logger.error(f"Usuário {current_user.email} não conseguiu incluir uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível incluir essa despesa."
-            print(e)
             flash(mensagem)
             return redirect(url_for("despesas.criar"))
 
@@ -235,7 +232,7 @@ def detalhar(id):
                 despesa["download_token"]
             )
         except Exception as e:
-            print(e)
+            current_app.logger.error(f"Sistema não conseguiu encontrar o arquivo desta despesa requisitada pelo usuário {current_user.email}.\nErro do programa:\n{e}")
     else:
         arquivo_url = "#"
 
@@ -321,7 +318,7 @@ def editar(id):
 
         except Exception as e:
             mensagem = "Não foi possível atualizar essa despesa."
-            print(e)
+            current_app.logger.error(f"Usuário {current_user.email} não conseguiu atualizar uma despesa.\nErro do programa:\n{e}")
             flash(mensagem)
 
         return redirect(url_for("despesas.detalhar", id=id))
@@ -360,8 +357,8 @@ def deletar(id):
         db.child("despesas").child(id).remove(current_user.idToken)
 
     except Exception as e:
+        current_app.logger.error(f"Usuário {current_user.email} não conseguiu deletar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível deletar a despesa"
-        print(e)
         flash(mensagem)
 
     return redirect(url_for("despesas.listar"))
@@ -416,8 +413,8 @@ def aprovacao(id):
         send_mail(despesa, current_user)
 
     except Exception as e:
+        current_app.logger.error(f"Usuário {current_user.email} não conseguiu autorizar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível atualizar essa despesa."
-        print(e)
         flash(mensagem)
 
     return redirect(url_for("despesas.listar"))
@@ -473,8 +470,8 @@ def desaprovacao(id):
             send_mail(despesa, current_user, motivo)
 
         except Exception as e:
+            current_app.logger.error(f"Usuário {current_user.email} não conseguiu desaprovar uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível atualizar essa despesa."
-            print(e)
             flash(mensagem)
 
         return redirect(url_for("despesas.listar"))
@@ -510,8 +507,8 @@ def cancelar(id):
         send_mail(despesa, current_user)
 
     except Exception as e:
+        current_app.logger.error(f"Usuário {current_user.email} não conseguiu cancelar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível atualizar essa despesa."
-        print(e)
         flash(mensagem)
 
     return redirect(url_for("despesas.listar"))
@@ -573,8 +570,8 @@ def efetivar(id):
             return redirect(url_for("despesas.listar"))
 
         except Exception as e:
+            current_app.logger.error(f"Usuário {current_user.email} não conseguiu efetivar uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível atualizar essa despesa."
-            print(e)
             flash(mensagem)
 
         return redirect(url_for("despesas.detalhar", id=id))
