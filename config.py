@@ -2,6 +2,15 @@ import os
 import json
 import urllib.request
 
+from dotenv import load_dotenv
+
+# Se em produção e hpuver o arquivo .env, carrega este ao invés de usar variáveis de ambiente
+try:
+    if not os.environ.get('FLASK_DEBUG'):
+        load_dotenv()
+except Exception as e:
+    pass
+
 with urllib.request.urlopen(os.environ['PATH_TO_JSON']) as url:
     serviceAccount = json.loads(url.read().decode())
 
