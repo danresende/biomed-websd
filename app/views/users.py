@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from app.forms import UserForm
@@ -70,7 +70,7 @@ def criar():
 
         except Exception as e:
             mensagem = "Não foi possível incluir este usuário."
-            print(e)
+            current_app.logger.error(f"{mensagem}\nErro do programa:\n{e}")
             flash(mensagem)
             return redirect(url_for("users.criar"))
 
@@ -120,13 +120,12 @@ def editar(id):
             "Diretor": form.diretor.data,
         }
 
-        print(usuario)
         try:
             db.child("users").child(id).update(usuario, current_user.idToken)
 
         except Exception as e:
             mensagem = "Não for possível atualizar os dados deste usuário."
-            print(e)
+            current_app.logger.error(f"{mensagem}\nErro do programa:\n{e}")
             flash(mensagem)
 
         return redirect(url_for("users.detalhar", id=id))
@@ -154,6 +153,6 @@ def deletar(id):
         return redirect(url_for("despesas.listar"))
 
     db.child("users").child(id).remove(current_user.idToken)
-    print("deletedo o usuário" + id)
+    current_app.logger.warning(f"Usuário {id} excluído por {current_user.email}.")
 
     return redirect(url_for("users.listar"))
