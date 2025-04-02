@@ -43,7 +43,8 @@ def teste_tempo_inclusao(despesa, target):
 
     data_pgto = datetime.strptime(despesa["data_pagamento"], "%d/%m/%Y")
     hoje = datetime.now()
-    wd_delta = busday_count(hoje.strftime("%Y-%m-%d"), data_pgto.strftime("%Y-%m-%d"))
+    wd_delta = busday_count(hoje.strftime("%Y-%m-%d"),
+                            data_pgto.strftime("%Y-%m-%d"))
 
     if wd_delta <= target:
         flash(
@@ -76,7 +77,8 @@ def listar():
     if current_user.is_active() and current_user.session_over():
         current_user.reset_token()
 
-    usuario = db.child("users").child(current_user.localId).get(current_user.idToken)
+    usuario = db.child("users").child(
+        current_user.localId).get(current_user.idToken)
     usuario = dict(usuario.val())
 
     data = {}
@@ -86,17 +88,20 @@ def listar():
 
     except Exception as e:
         data = {}
-        current_app.logger.error(f"Usuário {current_user.email} não conseguiu carregar a lista de despesas.\nErro do programa:\n{e}")
+        current_app.logger.error(f"Usuário {
+                                 current_user.email} não conseguiu carregar a lista de despesas.\nErro do programa:\n{e}")
 
     despesas = []
     for k, v in data.items():
         despesa = v
         despesa["id"] = k
-        despesa["data_criacao"] = datetime.strptime(despesa["data_criacao"], "%d/%m/%Y")
+        despesa["data_criacao"] = datetime.strptime(
+            despesa["data_criacao"], "%d/%m/%Y")
         despesa["data_pagamento"] = datetime.strptime(
             despesa["data_pagamento"], "%d/%m/%Y"
         )
-        despesa["data_ult_alt"] = datetime.strptime(despesa["data_ult_alt"], "%d/%m/%Y")
+        despesa["data_ult_alt"] = datetime.strptime(
+            despesa["data_ult_alt"], "%d/%m/%Y")
 
         delta = datetime.now() - despesa["data_ult_alt"]
 
@@ -174,7 +179,8 @@ def criar():
 
         if form.boleto.data is not None:
             despesa["tem_arquivo"] = True
-            boleto = os.path.join("/tmp", secure_filename(form.boleto.data.filename))
+            boleto = os.path.join(
+                "/tmp", secure_filename(form.boleto.data.filename))
             form.boleto.data.save(boleto)
 
         if despesa["departamento"] == "diretoria":
@@ -193,7 +199,8 @@ def criar():
             return redirect(url_for("despesas.listar"))
 
         except Exception as e:
-            current_app.logger.error(f"Usuário {current_user.email} não conseguiu incluir uma despesa.\nErro do programa:\n{e}")
+            current_app.logger.error(f"Usuário {
+                                     current_user.email} não conseguiu incluir uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível incluir essa despesa."
             flash(mensagem)
             return redirect(url_for("despesas.criar"))
@@ -208,7 +215,8 @@ def detalhar(id):
     if current_user.is_active() and current_user.session_over():
         current_user.reset_token()
 
-    usuario = db.child("users").child(current_user.localId).get(current_user.idToken)
+    usuario = db.child("users").child(
+        current_user.localId).get(current_user.idToken)
     usuario = dict(usuario.val())
 
     despesa = db.child("despesas").child(id).get(current_user.idToken)
@@ -232,7 +240,8 @@ def detalhar(id):
                 despesa["download_token"]
             )
         except Exception as e:
-            current_app.logger.error(f"Sistema não conseguiu encontrar o arquivo desta despesa requisitada pelo usuário {current_user.email}.\nErro do programa:\n{e}")
+            current_app.logger.error(f"Sistema não conseguiu encontrar o arquivo desta despesa requisitada pelo usuário {
+                                     current_user.email}.\nErro do programa:\n{e}")
     else:
         arquivo_url = "#"
 
@@ -301,7 +310,8 @@ def editar(id):
 
         if form.boleto.data is not None:
             despesa["tem_arquivo"] = True
-            boleto = os.path.join("/tmp", secure_filename(form.boleto.data.filename))
+            boleto = os.path.join(
+                "/tmp", secure_filename(form.boleto.data.filename))
             form.boleto.data.save(boleto)
 
         try:
@@ -312,13 +322,15 @@ def editar(id):
                     boleto, current_user.idToken
                 )
                 despesa["download_token"] = response["downloadTokens"]
-            db.child("despesas").child(id).update(despesa, current_user.idToken)
+            db.child("despesas").child(id).update(
+                despesa, current_user.idToken)
             send_mail(despesa, current_user)
             return redirect(url_for("despesas.listar"))
 
         except Exception as e:
             mensagem = "Não foi possível atualizar essa despesa."
-            current_app.logger.error(f"Usuário {current_user.email} não conseguiu atualizar uma despesa.\nErro do programa:\n{e}")
+            current_app.logger.error(f"Usuário {
+                                     current_user.email} não conseguiu atualizar uma despesa.\nErro do programa:\n{e}")
             flash(mensagem)
 
         return redirect(url_for("despesas.detalhar", id=id))
@@ -353,11 +365,13 @@ def deletar(id):
 
     try:
         if despesa["tem_arquivo"]:
-            storage.child("gs://").delete("boletos/" + id)
+            storage.child("gs://").delete("boletos/" +
+                                          id, current_user.idToken)
         db.child("despesas").child(id).remove(current_user.idToken)
 
     except Exception as e:
-        current_app.logger.error(f"Usuário {current_user.email} não conseguiu deletar uma despesa.\nErro do programa:\n{e}")
+        current_app.logger.error(f"Usuário {
+                                 current_user.email} não conseguiu deletar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível deletar a despesa"
         flash(mensagem)
 
@@ -371,7 +385,8 @@ def aprovacao(id):
     if current_user.is_active() and current_user.session_over():
         current_user.reset_token
 
-    usuario = db.child("users").child(current_user.localId).get(current_user.idToken)
+    usuario = db.child("users").child(
+        current_user.localId).get(current_user.idToken)
     usuario = dict(usuario.val())
 
     despesa = db.child("despesas").child(id).get(current_user.idToken)
@@ -413,7 +428,8 @@ def aprovacao(id):
         send_mail(despesa, current_user)
 
     except Exception as e:
-        current_app.logger.error(f"Usuário {current_user.email} não conseguiu autorizar uma despesa.\nErro do programa:\n{e}")
+        current_app.logger.error(f"Usuário {
+                                 current_user.email} não conseguiu autorizar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível atualizar essa despesa."
         flash(mensagem)
 
@@ -427,7 +443,8 @@ def desaprovacao(id):
     if current_user.is_active() and current_user.session_over():
         current_user.reset_token
 
-    usuario = db.child("users").child(current_user.localId).get(current_user.idToken)
+    usuario = db.child("users").child(
+        current_user.localId).get(current_user.idToken)
     usuario = dict(usuario.val())
 
     despesa = db.child("despesas").child(id).get(current_user.idToken)
@@ -466,11 +483,13 @@ def desaprovacao(id):
         try:
             despesa["modificado_por"] = current_user.email
             despesa["data_ult_alt"] = datetime.now().strftime("%d/%m/%Y")
-            db.child("despesas").child(id).update(despesa, current_user.idToken)
+            db.child("despesas").child(id).update(
+                despesa, current_user.idToken)
             send_mail(despesa, current_user, motivo)
 
         except Exception as e:
-            current_app.logger.error(f"Usuário {current_user.email} não conseguiu desaprovar uma despesa.\nErro do programa:\n{e}")
+            current_app.logger.error(f"Usuário {
+                                     current_user.email} não conseguiu desaprovar uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível atualizar essa despesa."
             flash(mensagem)
 
@@ -486,7 +505,8 @@ def cancelar(id):
     if current_user.is_active() and current_user.session_over():
         current_user.reset_token
 
-    usuario = db.child("users").child(current_user.localId).get(current_user.idToken)
+    usuario = db.child("users").child(
+        current_user.localId).get(current_user.idToken)
     usuario = dict(usuario.val())
 
     despesa = db.child("despesas").child(id).get(current_user.idToken)
@@ -507,7 +527,8 @@ def cancelar(id):
         send_mail(despesa, current_user)
 
     except Exception as e:
-        current_app.logger.error(f"Usuário {current_user.email} não conseguiu cancelar uma despesa.\nErro do programa:\n{e}")
+        current_app.logger.error(f"Usuário {
+                                 current_user.email} não conseguiu cancelar uma despesa.\nErro do programa:\n{e}")
         mensagem = "Não foi possível atualizar essa despesa."
         flash(mensagem)
 
@@ -551,7 +572,8 @@ def efetivar(id):
 
         if form.boleto.data is not None:
             despesa["tem_arquivo"] = True
-            boleto = os.path.join("/tmp", secure_filename(form.boleto.data.filename))
+            boleto = os.path.join(
+                "/tmp", secure_filename(form.boleto.data.filename))
             form.boleto.data.save(boleto)
 
         if despesa["departamento"] == "diretoria":
@@ -570,7 +592,8 @@ def efetivar(id):
             return redirect(url_for("despesas.listar"))
 
         except Exception as e:
-            current_app.logger.error(f"Usuário {current_user.email} não conseguiu efetivar uma despesa.\nErro do programa:\n{e}")
+            current_app.logger.error(f"Usuário {
+                                     current_user.email} não conseguiu efetivar uma despesa.\nErro do programa:\n{e}")
             mensagem = "Não foi possível atualizar essa despesa."
             flash(mensagem)
 
